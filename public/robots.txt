@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://belisy-blog.vercel.app/
+
+# Sitemaps
+Sitemap: https://belisy-blog.vercel.app/sitemap.xml
