@@ -7,7 +7,8 @@ async function getProducts(
   skip: number,
   take: number,
   orderBy: string,
-  category: number
+  category: number,
+  contains: string
 ) {
   const getOrderBy = (orderBy?: string) => {
     return orderBy
@@ -20,7 +21,15 @@ async function getProducts(
   };
   const orderByCondition = getOrderBy(orderBy);
 
-  const where = category !== 0 ? { category_id: category } : undefined;
+  const containCondition =
+    contains !== "" ? { name: { contains: contains } } : undefined;
+
+  const where =
+    category !== 0
+      ? { category_id: category, ...containCondition }
+      : containCondition
+      ? containCondition
+      : undefined;
 
   try {
     const response = await prisma.products.findMany({
@@ -47,7 +56,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { skip, take, orderBy, category } = req.query;
+  const { skip, take, orderBy, category, contains } = req.query;
   if (skip === null || take === null) {
     res.status(400).json({ message: "no skip or take" });
   }
@@ -56,7 +65,8 @@ export default async function handler(
       Number(skip),
       Number(take),
       String(orderBy),
-      Number(category)
+      Number(category),
+      String(contains)
     );
     res.status(200).json({ data: products, message: "Success" });
   } catch (err) {
