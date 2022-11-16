@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import styles from "../styles/Home.module.css";
+import styled from "@emotion/styled";
 import { categories, products } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -28,12 +28,13 @@ export default function Home() {
 
   // 전체상품
   useEffect(() => {
+    setSkip(0);
+    setProductsArr([]);
     fetch(
       `/api/get-products?skip=0&take=${take}&orderBy=${selectedFilter}&category=${selectedCategory}&contains=${debouncedKeyword}`
     )
       .then((res) => res.json())
       .then(({ data }) => setProductsArr(data));
-    console.log("data데이타", productsArr);
   }, [selectedFilter, selectedCategory, debouncedKeyword]);
 
   // 카테고리/검색어 별 상품수
@@ -44,6 +45,7 @@ export default function Home() {
       .then((res) => res.json())
       .then(({ data }) => setTotalCount(data));
 
+    console.log("22data데이타", productsArr);
     console.log("11토탈개수", totalCount);
   }, [selectedCategory, debouncedKeyword]);
 
@@ -66,6 +68,9 @@ export default function Home() {
     },
     []
   );
+  const onClickReset = useCallback(() => {
+    setKeyword("");
+  }, []);
   // 필터
   const onChangeFilter = useCallback((e: any) => {
     setSelectedFilter(e.target.value);
@@ -87,105 +92,116 @@ export default function Home() {
         // setProducts((prev) => [...prev, ...data]);
       });
     setSkip(next);
+    console.log("33더보기데이타", productsArr);
   }, [skip, productsArr, selectedFilter, selectedCategory]);
 
+  const categoryStyle =
+    "mx-2 px-1 hover:cursor-pointer border rounded-md bg-gray-50 shadow-sm font-semibold text-gray-500 hover:text-pink-500 hover:border-pink-500 hover:ring-pink-500 focus:ring-1";
+
   return (
-    <div className="px-20 grid place-items-center">
-      <main className={styles.main}>
-        {/* 검색 */}
-        <div className="flex">
-          <input
-            className="placeholder:italic placeholder:text-pink-400 block bg-gray-50 w-80 border rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1 sm:text-sm"
-            ref={inputRef}
-            value={keyword}
-            onChange={onChangeSearch}
-            placeholder="상품명을 검색해보세요"
-          />
-          {inputRef.current && (
+    <main className="my-20 px-20 grid place-items-center">
+      {/* 검색 */}
+      <div className="flex mb-5 relative">
+        <input
+          className="placeholder:italic placeholder:text-pink-400 block bg-gray-50 w-80 border rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1 sm:text-sm"
+          ref={inputRef}
+          value={keyword}
+          onChange={onChangeSearch}
+          placeholder="상품명을 검색해보세요"
+        />
+        {keyword.length > 0 && (
+          <SearchStyle>
             <Image
+              className="hover:cursor-pointer"
               src="/resetBtn.svg"
               alt="검색창 초기화"
-              width={25}
-              height={25}
-              // onClick={onClickReset}
+              width={20}
+              height={20}
+              onClick={onClickReset}
             />
-          )}
-        </div>
+          </SearchStyle>
+        )}
+      </div>
 
-        {/* filter */}
-        <select
-          className="bg-gray-50 border rounded-md my-3 shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1"
-          onChange={onChangeFilter}
-          value={selectedFilter}
-        >
-          {filters.map((filter) => (
-            <option key={filter.value} value={filter.value}>
-              {filter.label}
-            </option>
-          ))}
-        </select>
+      {/* filter */}
+      <select
+        className="bg-gray-50 border rounded-md mb-5 shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1"
+        onChange={onChangeFilter}
+        value={selectedFilter}
+      >
+        {filters.map((filter) => (
+          <option key={filter.value} value={filter.value}>
+            {filter.label}
+          </option>
+        ))}
+      </select>
 
-        <div className="flex">
-          <ul className="flex">
+      <ul className="flex mb-10">
+        <li className={categoryStyle} value={0} onClick={onClickCategory}>
+          전체
+        </li>
+        {categories &&
+          categories.map((el, i) => (
             <li
-              className="mx-2 hover:cursor-pointer border rounded-md px-1 bg-gray-50 shadow-sm sm:text-sm font-semibold text-gray-500 hover:text-pink-500 hover:border-pink-500 hover:ring-pink-500 focus:ring-1"
-              value={0}
+              key={`${i}-${el}`}
+              value={el.id}
+              className={categoryStyle}
               onClick={onClickCategory}
             >
-              전체
+              {el.name}
             </li>
-            {categories &&
-              categories.map((el, i) => (
-                <li
-                  key={`${i}-${el}`}
-                  value={el.id}
-                  className="mx-2 hover:cursor-pointer border rounded-md px-1 bg-gray-50 shadow-sm sm:text-sm font-semibold text-gray-500 hover:text-pink-500 hover:border-pink-500 hover:ring-pink-500 focus:ring-1"
-                  onClick={onClickCategory}
-                >
-                  {el.name}
-                </li>
-              ))}
-          </ul>
-        </div>
+          ))}
+      </ul>
 
-        <br />
-        <br />
-
-        <div className="grid overflow-x-hidden gap-y-10 gap-x-5 sm:grid-cols-2 md:grid-cols-4">
-          {productsArr &&
-            productsArr.map((product, i) => (
-              <div key={product.id} className="hover:cursor-pointer">
-                <Image
-                  className="w-full"
-                  src={product.image_url ?? ""}
-                  alt={`${product.name}`}
-                  width={100}
-                  height={100}
-                />
-                <div className="text-gray-500 font-semibold">
-                  {product.name}
-                </div>
-                <div className="text-ellipsis overflow-x-hidden text-sm">
-                  {product.contents}
-                </div>
-                <div className="text-xs text-gray-500 font-medium flex justify-end">
-                  {product.price?.toLocaleString("ko-KR")} 원
-                </div>
+      <div className="grid overflow-x-hidden gap-y-10 gap-x-5 sm:grid-cols-2 md:grid-cols-4">
+        {productsArr &&
+          productsArr.map((product, i) => (
+            <div key={product.id} className="hover:cursor-pointer">
+              <Image
+                className="w-full"
+                src={product.image_url ?? ""}
+                // src={
+                //   product.image_url !== undefined
+                //     ? product.image_url
+                //     : "/image_icon_50366.png"
+                // }
+                alt={`${product.name}`}
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
+                width={100}
+                height={100}
+              />
+              <div className="text-gray-500 font-semibold">{product.name}</div>
+              <div className="text-ellipsis overflow-x-hidden text-sm">
+                {product.contents}
               </div>
-            ))}
-        </div>
+              <div className="sm:text-xs lg:text-md text-gray-500 font-medium flex justify-end">
+                {product.price?.toLocaleString("ko-KR")} 원
+              </div>
+            </div>
+          ))}
+      </div>
 
-        {totalCount && totalCount > skip + take ? (
-          <button
-            className="container mx-auto px-4 bg-gray-50 shadow-sm text-gray-500 font-semibold border-2 rounded hover:border-pink-500 hover:text-pink-500"
-            onClick={onClickMore}
-          >
-            더보기
-          </button>
-        ) : (
-          ""
-        )}
-      </main>
-    </div>
+      {console.log("테스트skip + take", skip, take)}
+      {totalCount && totalCount > skip + take ? (
+        <button
+          className="container mx-auto mt-10 p-1 bg-gray-50 shadow-sm text-gray-500 font-semibold border-2 rounded hover:border-pink-500 hover:text-pink-500"
+          onClick={onClickMore}
+        >
+          더보기
+        </button>
+      ) : (
+        ""
+      )}
+    </main>
   );
 }
+
+const SearchStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  right: 5px;
+  top: 0;
+  bottom: 0;
+`;
