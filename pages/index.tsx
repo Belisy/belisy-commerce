@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import { categories, products } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
@@ -6,6 +7,7 @@ import Image from "next/image";
 import useDebounce from "hooks/useDebounce";
 
 export default function Home() {
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [keyword, setKeyword] = useState("");
   const [skip, setSkip] = useState(0);
@@ -44,9 +46,6 @@ export default function Home() {
     )
       .then((res) => res.json())
       .then(({ data }) => setTotalCount(data));
-
-    console.log("22data데이타", productsArr);
-    console.log("11토탈개수", totalCount);
   }, [selectedCategory, debouncedKeyword]);
 
   // 카테고리api불러오기
@@ -59,7 +58,6 @@ export default function Home() {
     () => fetch("/api/get-categories").then((res) => res.json()),
     { select: ({ data }) => data }
   );
-  console.log("로컬categories", categories);
 
   // 검색
   const onChangeSearch = useCallback(
@@ -78,6 +76,7 @@ export default function Home() {
   // 카테고리
   const onClickCategory = useCallback((e: any) => {
     setSelectedCategory(Number(e.target.value));
+    console.log("dd", e.target);
   }, []);
   // 더보기-상품 더 불러오기
   const onClickMore = useCallback(() => {
@@ -92,7 +91,6 @@ export default function Home() {
         // setProducts((prev) => [...prev, ...data]);
       });
     setSkip(next);
-    console.log("33더보기데이타", productsArr);
   }, [skip, productsArr, selectedFilter, selectedCategory]);
 
   const categoryStyle =
@@ -156,7 +154,11 @@ export default function Home() {
       <div className="grid overflow-x-hidden gap-y-10 gap-x-5 sm:grid-cols-2 md:grid-cols-4">
         {productsArr &&
           productsArr.map((product, i) => (
-            <div key={product.id} className="hover:cursor-pointer">
+            <div
+              key={product.id}
+              className="hover:cursor-pointer"
+              onClick={() => router.push(`/products/${product.id}`)}
+            >
               <Image
                 className="w-full"
                 src={product.image_url ?? ""}
@@ -168,21 +170,21 @@ export default function Home() {
                 alt={`${product.name}`}
                 placeholder="blur"
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
-                width={100}
+                width={130}
                 height={100}
               />
-              <div className="text-gray-500 font-semibold">{product.name}</div>
-              <div className="text-ellipsis overflow-x-hidden text-sm">
-                {product.contents}
-              </div>
-              <div className="sm:text-xs lg:text-md text-gray-500 font-medium flex justify-end">
-                {product.price?.toLocaleString("ko-KR")} 원
+              <div className="flex justify-between align-middle">
+                <div className="text-gray-500 font-semibold sm:text-md lg:text-lg">
+                  {product.name}
+                </div>
+                <div className="my-auto sm:text-sm lg:text-md text-gray-500 font-medium flex justify-end">
+                  {product.price?.toLocaleString("ko-KR")} 원
+                </div>
               </div>
             </div>
           ))}
       </div>
 
-      {console.log("테스트skip + take", skip, take)}
       {totalCount && totalCount > skip + take ? (
         <button
           className="container mx-auto mt-10 p-1 bg-gray-50 shadow-sm text-gray-500 font-semibold border-2 rounded hover:border-pink-500 hover:text-pink-500"

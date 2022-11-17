@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 import { EditorProps } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import styled from "@emotion/styled";
 import { EditorState } from "draft-js";
 import { Dispatch, SetStateAction } from "react";
 
@@ -25,7 +24,7 @@ export default function CustomEditor({
   onEditorStateChange?: Dispatch<SetStateAction<EditorState | undefined>>;
 }) {
   return (
-    <Wrapper>
+    <div className="relative">
       <Editor
         readOnly={readOnly}
         editorState={editorState}
@@ -41,11 +40,14 @@ export default function CustomEditor({
         }}
         onEditorStateChange={onEditorStateChange}
       />
-      {!readOnly && <button onClick={onSave}>save</button>}
-    </Wrapper>
+      {!readOnly && (
+        <button
+          className="px-2 my-3 absolute right-0 bg-gray-50 border rounded-md mb-5 shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1"
+          onClick={onSave}
+        >
+          save
+        </button>
+      )}
+    </div>
   );
 }
-
-const Wrapper = styled.div`
-  padding: 16px;
-`;
