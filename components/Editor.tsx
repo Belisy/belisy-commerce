@@ -4,13 +4,20 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState } from "draft-js";
 import { Dispatch, SetStateAction } from "react";
 
-const Editor = dynamic<EditorProps>(
-  () => import("react-draft-wysiwyg").then((module) => module.Editor),
-  {
-    ssr: false,
-    loading: () => <p>Loading...</p>,
-  }
-);
+// const Editor = dynamic<EditorProps>(
+//   () => import("react-draft-wysiwyg").then((module) => module.Editor),
+//   {
+//     ssr: false,
+//     loading: () => <p>Loading...</p>,
+//   }
+// );
+
+// const Editor = dynamic<EditorProps>(
+//   () => import("react-draft-wysiwyg").then((module) => module.Editor),
+//   {
+//     ssr: false, //ssr에서는 불러오지 않도록
+//   }
+// );
 
 export default function CustomEditor({
   editorState,
@@ -25,7 +32,8 @@ export default function CustomEditor({
 }) {
   return (
     <div className="relative">
-      <Editor
+      <h1>디버깅 중입니다.</h1>
+      {/* <Editor
         readOnly={readOnly}
         editorState={editorState}
         toolbarHidden={readOnly}
@@ -39,7 +47,7 @@ export default function CustomEditor({
           locale: "ko",
         }}
         onEditorStateChange={onEditorStateChange}
-      />
+      /> */}
       {!readOnly && (
         <button
           className="px-2 my-3 absolute right-0 bg-gray-50 border rounded-md mb-5 shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1"

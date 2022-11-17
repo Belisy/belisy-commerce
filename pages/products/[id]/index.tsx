@@ -35,7 +35,7 @@ export default function Product(props: { product: products }) {
 
   const { product } = props;
   const imageArr = [
-    product.image_url,
+    product?.image_url,
     "https://picsum.photos/id/1011/400/300/",
     "https://picsum.photos/id/912/400/300/",
   ];
@@ -69,13 +69,13 @@ export default function Product(props: { product: products }) {
           <div>
             {imageArr.map((img, i) => (
               <div
-                key={`${product.name}-carousel-${i}`}
+                key={`${product?.name}-carousel-${i}`}
                 onClick={() => setIndex(i)}
               >
                 <Image
                   className="hover:cursor-pointer"
                   src={img ?? ""}
-                  alt={product.name}
+                  alt={product?.name}
                   width={1200}
                   height={1200}
                   placeholder="blur"

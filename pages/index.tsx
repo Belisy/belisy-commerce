@@ -5,6 +5,7 @@ import { categories, products } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import useDebounce from "hooks/useDebounce";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   const router = useRouter();
@@ -15,6 +16,8 @@ export default function Home() {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [totalCount, setTotalCount] = useState();
+
+  const { data: session } = useSession();
 
   const debouncedKeyword = useDebounce<string>(keyword);
   const take = 8;
@@ -98,6 +101,7 @@ export default function Home() {
 
   return (
     <main className="my-20 px-20 grid place-items-center">
+      <h1>{session && <p>안녕하세요. {session.user?.name}님</p>}</h1>
       {/* 검색 */}
       <div className="flex mb-5 relative">
         <input

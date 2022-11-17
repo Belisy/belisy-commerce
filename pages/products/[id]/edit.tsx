@@ -40,17 +40,15 @@ export default function Edit() {
     if (productId !== null) {
       fetch(`/api/get-product?id=${productId}`)
         .then((res) => res.json())
-        .then(({ data }) => {
-          if (data?.contents) {
-            setEditorState(
-              EditorState.createWithContent(
-                convertFromRaw(JSON.parse(data.contents))
-              )
-            );
-          } else {
-            setEditorState(EditorState.createEmpty());
-          }
-        });
+        .then(({ data }) => console.log("111data", data?.contents));
+
+      // .then(({ data }) => {
+      //   if (data?.contents) {
+      //     setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(data.contents)));
+      //   } else {
+      //     setEditorState(EditorState.createEmpty());
+      //   }
+      // });
     }
   }, [productId]);
 
@@ -80,7 +78,7 @@ export default function Edit() {
 
   return (
     <main className="my-20 px-20 grid place-items-center">
-      <div>
+      {/* <div>
         <div className="flex">
           <Carousel
             animation="fade"
@@ -93,7 +91,7 @@ export default function Edit() {
             {imageArr.map((url, i) => (
               <Image
                 key={`carousel-${i}`}
-                className="w-full"
+                className="w-full h-full"
                 src={url ?? ""}
                 width={400}
                 height={350}
@@ -137,7 +135,7 @@ export default function Edit() {
             </span>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {editorState !== null && (
         <CustomEditor
