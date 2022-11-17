@@ -19,7 +19,7 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "database",
-    maxAge: 30 * 24 * 60 * 60, // 토큰만료-30일 기한
+    maxAge: 1 * 24 * 60 * 60, // 토큰만료
   },
   // callbacks: {
   //   session: async ({ session, user }) => {

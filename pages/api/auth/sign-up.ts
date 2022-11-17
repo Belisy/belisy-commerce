@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 async function signUp(credential: string) {
   const decoded: { name: string; email: string; picture: string } =
     jwtDecode(credential);
-
+  console.log("1유저정보DB저장하기");
   try {
     // upsert: 있으면 업데이트, 없으면 생성
     const response = await prisma.user.upsert({
@@ -42,6 +42,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
+    console.log("2유저정보DB저장하기");
     const { credential } = req.query;
     const userInfo = await signUp(String(credential));
     res.status(200).json({ data: userInfo, message: `Success` });
