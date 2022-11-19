@@ -1,5 +1,5 @@
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Session } from "@prisma/client";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
@@ -21,12 +21,15 @@ export const authOptions: NextAuthOptions = {
     strategy: "database",
     maxAge: 1 * 24 * 60 * 60, // 토큰만료
   },
-  // callbacks: {
-  //   session: async ({ session, user }) => {
-  //     session.id = user.id;
-  //     return Promise.resolve(session);
-  //   },
-  // },
+  callbacks: {
+    session: async ({ session, user }) => {
+      if (session.user) {
+        session.user.id = user.id;
+      }
+
+      return Promise.resolve(session);
+    },
+  },
 };
 
 export default NextAuth(authOptions);

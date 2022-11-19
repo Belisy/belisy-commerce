@@ -9,7 +9,6 @@ export default function Google() {
       <div style={{ display: "flex" }}>
         <GoogleLogin
           onSuccess={(credentialResponse) => {
-            console.log("데이터userDB저장", credentialResponse.credential);
             fetch(
               `/api/auth/sign-up?credential=${credentialResponse.credential}`
             )
