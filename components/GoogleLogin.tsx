@@ -28,13 +28,22 @@ export default function GoogleLogin() {
   }
 
   return (
-    <div className="">
-      <div className="mb-10">로그인을 해보세요.</div>
+    <div className="grid grid-rows-2">
+      <div className="mb-5">
+        로그인을 해보세요.
+        <br />
+        <button
+          className="font-semibold text-lg text-pink-500"
+          onClick={() => signIn()}
+        >
+          Sign in
+        </button>
+      </div>
       <button
-        className="font-semibold text-lg text-pink-500"
-        onClick={() => signIn()}
+        className="font-semibold text-gray-400"
+        onClick={() => router.push("/")}
       >
-        Sign in
+        홈으로
       </button>
     </div>
   );

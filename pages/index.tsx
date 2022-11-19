@@ -101,7 +101,19 @@ export default function Home() {
 
   return (
     <main className="my-20 px-20 grid place-items-center">
-      <h1>{session && <p>안녕하세요. {session.user?.name}님</p>}</h1>
+      <h1>
+        {session ? (
+          <>
+            <p>안녕하세요. {session.user?.name}님</p>
+            <button onClick={() => router.push("/auth/login")}>로그아웃</button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => router.push("/auth/login")}>로그인</button>
+          </>
+        )}
+      </h1>
+
       {/* 검색 */}
       <div className="flex mb-5 relative">
         <input
