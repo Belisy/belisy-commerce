@@ -1,10 +1,11 @@
 import { products } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Carousel from "nuka-carousel";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const product = await fetch(
@@ -25,6 +26,10 @@ export default function Product(props: { product: products }) {
 
   //const [product, setProduct] = useState();
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
+  const { product } = props;
+
   const { id: productId } = router.query;
 
   // const { data: product2 } = useQuery(["get-product"], () =>
@@ -33,12 +38,72 @@ export default function Product(props: { product: products }) {
   //     .then(({ data }) => data)
   // );
 
-  const { product } = props;
+  const { data: wishlist } = useQuery(["/api/get-wishlist"], () =>
+    fetch("/api/get-wishlist")
+      .then((res) => res.json())
+      .then(({ data }) => data)
+  );
+  console.log("33위시리스트", typeof wishlist, wishlist);
+  const { mutate } = useMutation<unknown, unknown, string, any>(
+    (productId: string) =>
+      fetch("/api/update-wishlist", {
+        method: "POST",
+        body: JSON.stringify({ productId }),
+      })
+        .then((res) => res.json())
+        .then(({ data }) => data),
+    {
+      onMutate: async (productId) => {
+        await queryClient.cancelQueries(["/api/get-wishlist"]);
+        const previous = queryClient.getQueryData(["/api/get-wishlist"]);
+
+        queryClient.setQueryData<string[]>(["/api/get-wishlist"], (old) =>
+          old
+            ? old.includes(String(productId))
+              ? old.filter((id) => id !== String(productId))
+              : [...old, String(productId)] //old.concat(String(productId))
+            : []
+        );
+
+        return { previous };
+      },
+      onError: (error, _, context) => {
+        queryClient.setQueryData(["/api/get-wishlist"], context.previous);
+      },
+      onSuccess: () => {
+        console.log("성공!");
+        queryClient.invalidateQueries(["/api/get-wishlist"]);
+        //queryClient.setQueryData(["/api/get-wishlist"]);
+      },
+    }
+  );
+
+  console.log(
+    "123위시",
+    typeof wishlist,
+    wishlist,
+    [wishlist],
+    wishlist?.includes(String(productId))
+  );
+  const isWished =
+    wishlist !== null && productId !== null
+      ? wishlist?.includes(String(productId))
+      : false;
+
   const imageArr = [
     product?.image_url,
     "https://picsum.photos/id/1011/400/300/",
     "https://picsum.photos/id/912/400/300/",
   ];
+
+  const onClickWish = useCallback(() => {
+    if (session === null) {
+      alert("로그인이 필요해요");
+      router.push("/auth/login");
+      return;
+    }
+    mutate(String(productId));
+  }, [session, productId, mutate, router]);
 
   return (
     <main className="my-20 px-20 grid place-items-center">
@@ -92,7 +157,16 @@ export default function Product(props: { product: products }) {
               {product && product.name}
             </span>
             <div className="flex justify-end">
-              <span className="mr-3">찜하기</span>
+              {isWished ? (
+                <button className="mr-3" onClick={onClickWish}>
+                  찜해제
+                </button>
+              ) : (
+                <button className="mr-3" onClick={onClickWish}>
+                  찜하기
+                </button>
+              )}
+
               <span>장바구니</span>
             </div>
           </div>

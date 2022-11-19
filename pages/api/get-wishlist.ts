@@ -12,7 +12,7 @@ async function getWishlist(userId: string) {
         userId: userId,
       },
     });
-    console.log("wishlist", response);
+    console.log("서버겟wishlist", response, response?.productIds.split(","));
     return response?.productIds.split(",");
   } catch (err) {
     console.error(err);
@@ -31,12 +31,12 @@ export default async function handler(
   if (session === null) {
     res.status(200).json({ data: [], message: "no session" });
     return;
-  } else {
-    res.status(400).json({ message: `Success` });
   }
+  //else {
+  //   res.status(400).json({ message: `Success` });
+  // }
 
   try {
-    console.log("세션!!", session);
     const wishlist = await getWishlist(String(session.user?.id));
     res.status(200).json({ data: wishlist, message: "Success" });
   } catch (err) {
