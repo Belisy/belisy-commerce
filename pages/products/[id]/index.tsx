@@ -110,12 +110,12 @@ export default function Product(props: { product: products }) {
         body: JSON.stringify({ item }),
       })
         .then((res) => res.json())
-        .then(({ data }) => data),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["/api/get-cart"]);
-      },
-    }
+        .then(({ data }) => data)
+    // {
+    //   onSuccess: () => {
+    //     queryClient.invalidateQueries(["/api/get-cart"]);
+    //   },
+    // }
   );
 
   const validate = useCallback(
@@ -125,23 +125,24 @@ export default function Product(props: { product: products }) {
         return;
       }
 
+      const confirmMove = confirm("장바구니로 이동");
+
       if (type === "cart") {
         addCart({
           productId: product.id,
           quantity: quantity,
           amount: product.price * quantity,
         });
-      }
 
-      const confirmMove = confirm("장바구니로 이동");
-      if (confirmMove) {
-        router.push("/cart");
+        return confirmMove && router.push("/cart");
       }
     },
     [product, quantity, addCart, router]
   );
 
   const onClickCart = useCallback(() => {
+    console.log("2수량", quantity);
+
     if (session === null) {
       alert("로그인이 필요해요");
       router.push("/auth/login");

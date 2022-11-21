@@ -34,7 +34,10 @@ export default async function handler(
 ) {
   const session = await unstable_getServerSession(req, res, authOptions);
   const { item } = JSON.parse(req.body);
-  if (session === null || session.user?.id !== item.userId) {
+
+  if (session === null || session.user?.id !== item?.userId) {
+    console.log("확인용", session?.user?.id, item?.uerId, item);
+
     res
       .status(200)
       .json({ data: [], message: "no Session or Invalid Session" });

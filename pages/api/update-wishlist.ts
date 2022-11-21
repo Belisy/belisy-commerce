@@ -54,6 +54,7 @@ export default async function handler(
 ) {
   const session = await unstable_getServerSession(req, res, authOptions);
   const { productId } = JSON.parse(req.body);
+
   if (session === null) {
     res.status(200).json({ data: [], message: "no session" });
     return;
