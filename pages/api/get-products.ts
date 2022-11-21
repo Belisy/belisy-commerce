@@ -66,7 +66,7 @@ export default async function handler(
       Number(take),
       String(orderBy),
       Number(category),
-      String(contains)
+      contains ? String(contains) : ""
     );
     res.status(200).json({ data: products, message: "Success" });
   } catch (err) {

@@ -2,6 +2,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export default function GoogleLogin() {
+  // TODO: 코드 리팩토링 하기
   const router = useRouter();
   const { data: session } = useSession();
   if (session) {

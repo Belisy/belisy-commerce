@@ -7,6 +7,8 @@ import Image from "next/image";
 import useDebounce from "hooks/useDebounce";
 import { useSession } from "next-auth/react";
 
+// TODO: 코드 리팩토링 및 컴포넌트화 필요
+
 export default function Home() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -100,20 +102,7 @@ export default function Home() {
     "mx-2 px-1 hover:cursor-pointer border rounded-md bg-gray-50 shadow-sm font-semibold text-gray-500 hover:text-pink-500 hover:border-pink-500 hover:ring-pink-500 focus:ring-1";
 
   return (
-    <main className="my-20 px-20 grid place-items-center">
-      <h1>
-        {session ? (
-          <>
-            <p>안녕하세요. {session.user?.name}님</p>
-            <button onClick={() => router.push("/auth/login")}>로그아웃</button>
-          </>
-        ) : (
-          <>
-            <button onClick={() => router.push("/auth/login")}>로그인</button>
-          </>
-        )}
-      </h1>
-
+    <main className="grid place-items-center">
       {/* 검색 */}
       <div className="flex mb-5 relative">
         <input

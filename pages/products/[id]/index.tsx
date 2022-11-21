@@ -1,4 +1,4 @@
-import { products } from "@prisma/client";
+import { products, Cart } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { useSession } from "next-auth/react";
@@ -32,6 +32,8 @@ export default function Product(props: { product: products }) {
 
   const { id: productId } = router.query;
 
+  const [quantity, setQuantity] = useState(0);
+
   // const { data: product2 } = useQuery(["get-product"], () =>
   //   fetch(`/api/get-product?id=${productId}`)
   //     .then((res) => res.json())
@@ -43,7 +45,7 @@ export default function Product(props: { product: products }) {
       .then((res) => res.json())
       .then(({ data }) => data)
   );
-  console.log("33위시리스트", typeof wishlist, wishlist);
+
   const { mutate } = useMutation<unknown, unknown, string, any>(
     (productId: string) =>
       fetch("/api/update-wishlist", {
@@ -71,20 +73,11 @@ export default function Product(props: { product: products }) {
         queryClient.setQueryData(["/api/get-wishlist"], context.previous);
       },
       onSuccess: () => {
-        console.log("성공!");
         queryClient.invalidateQueries(["/api/get-wishlist"]);
-        //queryClient.setQueryData(["/api/get-wishlist"]);
       },
     }
   );
 
-  console.log(
-    "123위시",
-    typeof wishlist,
-    wishlist,
-    [wishlist],
-    wishlist?.includes(String(productId))
-  );
   const isWished =
     wishlist !== null && productId !== null
       ? wishlist?.includes(String(productId))
@@ -105,8 +98,68 @@ export default function Product(props: { product: products }) {
     mutate(String(productId));
   }, [session, productId, mutate, router]);
 
+  const { mutate: addCart } = useMutation<
+    unknown,
+    unknown,
+    Omit<Cart, "id" | "userId">,
+    any
+  >(
+    (item) =>
+      fetch(`/api/add-cart`, {
+        method: "POST",
+        body: JSON.stringify({ item }),
+      })
+        .then((res) => res.json())
+        .then(({ data }) => data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["/api/get-cart"]);
+      },
+    }
+  );
+
+  const validate = useCallback(
+    (type: "cart" | "order") => {
+      if (quantity === null || quantity === 0) {
+        alert("최소 수량을 선택하세요.");
+        return;
+      }
+
+      if (type === "cart") {
+        addCart({
+          productId: product.id,
+          quantity: quantity,
+          amount: product.price * quantity,
+        });
+      }
+
+      const confirmMove = confirm("장바구니로 이동");
+      if (confirmMove) {
+        router.push("/cart");
+      }
+    },
+    [product, quantity, addCart, router]
+  );
+
+  const onClickCart = useCallback(() => {
+    if (session === null) {
+      alert("로그인이 필요해요");
+      router.push("/auth/login");
+      return;
+    }
+    validate("cart");
+  }, [session, router, validate]);
+
+  const onChangeNum = useCallback((e: any) => {
+    if (e.target.value < 0) {
+      return;
+    }
+    setQuantity(Number(e.target.value));
+  }, []);
+
   return (
     <main className="my-20 px-20 grid place-items-center">
+      <button onClick={() => router.push("/")}>홈</button>
       <div>
         <div className="flex">
           <Carousel
@@ -151,7 +204,19 @@ export default function Product(props: { product: products }) {
           </div>
         </div>
 
-        <div className="mb-10 grid grid-rows-2 w-full">
+        <div className="mb-10 grid grid-rows-3 w-full">
+          <div className="flex justify-end">
+            <div className="">
+              수량
+              <input
+                className="w-9"
+                type="number"
+                value={quantity}
+                onChange={onChangeNum}
+              />
+            </div>
+          </div>
+
           <div className="grid grid-cols-2">
             <span className="text-lg text-gray-500 font-semibold">
               {product && product.name}
@@ -167,7 +232,7 @@ export default function Product(props: { product: products }) {
                 </button>
               )}
 
-              <span>장바구니</span>
+              <span onClick={onClickCart}>장바구니</span>
             </div>
           </div>
 
