@@ -5,7 +5,6 @@ import { categories, products } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import useDebounce from "hooks/useDebounce";
-import { useSession } from "next-auth/react";
 
 // TODO: 코드 리팩토링 및 컴포넌트화 필요
 
@@ -18,8 +17,6 @@ export default function Home() {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(0);
   const [totalCount, setTotalCount] = useState();
-
-  const { data: session } = useSession();
 
   const debouncedKeyword = useDebounce<string>(keyword);
   const take = 8;
@@ -167,11 +164,6 @@ export default function Home() {
               <Image
                 className="w-full"
                 src={product.image_url ?? ""}
-                // src={
-                //   product.image_url !== undefined
-                //     ? product.image_url
-                //     : "/image_icon_50366.png"
-                // }
                 alt={`${product.name}`}
                 placeholder="blur"
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="

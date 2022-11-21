@@ -158,8 +158,7 @@ export default function Product(props: { product: products }) {
   }, []);
 
   return (
-    <main className="my-20 px-20 grid place-items-center">
-      <button onClick={() => router.push("/")}>홈</button>
+    <main className="mt-5 grid place-items-center">
       <div>
         <div className="flex">
           <Carousel
@@ -204,10 +203,50 @@ export default function Product(props: { product: products }) {
           </div>
         </div>
 
-        <div className="mb-10 grid grid-rows-3 w-full">
+        <div className="mt-1 mb-10 grid grid-rows-2 grid-cols-2 w-full text-xl">
+          <span className="text-3xl text-pink-500 font-semibold">
+            {product && product.name}
+          </span>
+
+          <div>
+            <div className="flex justify-end">
+              <div className="mr-3" onClick={onClickWish}>
+                {isWished ? (
+                  <Image
+                    className="cursor-pointer"
+                    src="/wishlist.svg"
+                    alt="wish"
+                    width={30}
+                    height={30}
+                  />
+                ) : (
+                  <Image
+                    className="cursor-pointer"
+                    src="/no-wish.svg"
+                    alt="no-wish"
+                    width={30}
+                    height={30}
+                  />
+                )}
+              </div>
+
+              <div onClick={onClickCart}>
+                <Image
+                  className="mr-1 cursor-pointer"
+                  src="/cart.svg"
+                  alt="cart"
+                  width={30}
+                  height={30}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div></div>
+
           <div className="flex justify-end">
-            <div className="">
-              수량
+            <div className="flex">
+              <div className="mr-1">수량</div>
               <input
                 className="w-9"
                 type="number"
@@ -215,38 +254,15 @@ export default function Product(props: { product: products }) {
                 onChange={onChangeNum}
               />
             </div>
-          </div>
 
-          <div className="grid grid-cols-2">
-            <span className="text-lg text-gray-500 font-semibold">
-              {product && product.name}
-            </span>
-            <div className="flex justify-end">
-              {isWished ? (
-                <button className="mr-3" onClick={onClickWish}>
-                  찜해제
-                </button>
-              ) : (
-                <button className="mr-3" onClick={onClickWish}>
-                  찜하기
-                </button>
-              )}
-
-              <span onClick={onClickCart}>장바구니</span>
-            </div>
-          </div>
-
-          <div className="flex justify-end">
-            <span className="text-gray-400 font-semibold">
+            <span className="text-2xl text-gray-400 font-semibold">
               {product && product.price?.toLocaleString("ko-KR")}원
             </span>
           </div>
         </div>
       </div>
 
-      <div className="mb-10 text-xl text-gray-500">
-        {product && product.contents}
-      </div>
+      <div className="mb-5 text-2xl">{product && product.contents}</div>
     </main>
   );
 }
