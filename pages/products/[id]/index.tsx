@@ -46,7 +46,7 @@ export default function Product(props: { product: products }) {
       .then(({ data }) => data)
   );
 
-  const { mutate } = useMutation<unknown, unknown, string, any>(
+  const { mutate: updateWish } = useMutation<unknown, unknown, string, any>(
     (productId: string) =>
       fetch("/api/update-wishlist", {
         method: "POST",
@@ -95,8 +95,8 @@ export default function Product(props: { product: products }) {
       router.push("/auth/login");
       return;
     }
-    mutate(String(productId));
-  }, [session, productId, mutate, router]);
+    updateWish(String(productId));
+  }, [session, productId, updateWish, router]);
 
   const { mutate: addCart } = useMutation<
     unknown,
@@ -115,9 +115,10 @@ export default function Product(props: { product: products }) {
       onMutate: () => {
         queryClient.invalidateQueries(["/api/get-cart"]);
       },
-      // onSuccess: () => {
-      //   router.push("/cart");
-      // },
+      onSuccess: () => {
+        const confirmCart = confirm("장바구니로 이동");
+        confirmCart && router.push("/cart");
+      },
     }
   );
 
@@ -152,14 +153,11 @@ export default function Product(props: { product: products }) {
       }
 
       if (type === "cart") {
-        const confirmCart = confirm("장바구니로 이동");
         addCart({
           productId: product.id,
           quantity: quantity,
           amount: product.price * quantity,
         });
-
-        return confirmCart && router.push("/cart");
       }
 
       if (type === "order") {
@@ -173,7 +171,7 @@ export default function Product(props: { product: products }) {
         ]);
       }
     },
-    [product, quantity, addCart, addOrder, router]
+    [product, quantity, addCart, addOrder]
   );
 
   const onClickCart = useCallback(() => {

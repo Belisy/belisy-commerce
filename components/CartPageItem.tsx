@@ -85,8 +85,8 @@ const CartPageItem = (props: CartItem) => {
     });
   }, [quantity, updateCart, props]);
 
-  const onClickDelete = useCallback(async () => {
-    await deleteCart(props.id);
+  const onClickDelete = useCallback(() => {
+    deleteCart(props.id);
     alert(`장바구니에서 ${props.name} 삭제`);
   }, [deleteCart, props.id, props.name]);
 
@@ -97,56 +97,62 @@ const CartPageItem = (props: CartItem) => {
     setQuantity(Number(e.target.value));
   }, []);
   return (
-    <div className="grid grid-cols-[200px_minmax(200px,_1fr)_100px]">
-      {/* <Image /> */}
-      <Image
-        className="hover:cursor-pointer"
-        src={props.image_url ?? ""}
-        alt={props.name}
-        width={200}
-        height={200}
-        placeholder="blur"
-        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
-        onClick={() => {
-          router.push(`/products/${props.productId}`);
-        }}
-      />
-      <div className="ml-3 mr-40 relative">
-        <div className="text-2xl font-semibold text-pink-500">{props.name}</div>
-        <div className="flex absolute bottom-0 text-xl">
-          수량
-          <input
-            className="w-9"
-            type="number"
-            value={quantity}
-            onChange={onChangeNum}
-          />
+    <>
+      <div className="grid grid-cols-[200px_minmax(200px,_1fr)_100px]">
+        {/* <Image /> */}
+        <Image
+          className="hover:cursor-pointer"
+          src={props.image_url ?? ""}
+          alt={props.name}
+          width={200}
+          height={200}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
+          onClick={() => {
+            router.push(`/products/${props.productId}`);
+          }}
+        />
+        <div className="ml-3 mr-40 relative">
+          <div className="text-2xl font-semibold text-pink-500">
+            {props.name}
+          </div>
+          <div className="flex absolute bottom-0 text-xl">
+            수량
+            <input
+              className="w-9"
+              type="number"
+              value={quantity}
+              onChange={onChangeNum}
+            />
+            <Image
+              className="hover:cursor-pointer"
+              src="/refresh.svg"
+              alt="refresh"
+              width={25}
+              height={25}
+              onClick={onClickUpdate}
+            />
+          </div>
+        </div>
+
+        <div className="relative">
           <Image
-            className="hover:cursor-pointer"
-            src="/refresh.svg"
-            alt="refresh"
+            className="hover:cursor-pointer absolute right-0"
+            src="/delete.svg"
+            alt="delete"
             width={25}
             height={25}
-            onClick={onClickUpdate}
+            onClick={onClickDelete}
           />
+
+          <div className="absolute bottom-0 text-2xl font-bold text-pink-500">
+            {amount.toLocaleString("ko-KR")}원
+          </div>
         </div>
       </div>
 
-      <div className="relative">
-        <Image
-          className="hover:cursor-pointer absolute right-0"
-          src="/delete.svg"
-          alt="delete"
-          width={25}
-          height={25}
-          onClick={onClickDelete}
-        />
-
-        <div className="absolute bottom-0 text-2xl font-bold text-pink-500">
-          {amount.toLocaleString("ko-KR")}원
-        </div>
-      </div>
-    </div>
+      <div className="my-4 border border-gray-100 bg-gray-100"></div>
+    </>
   );
 };
 

@@ -53,7 +53,7 @@ export default function CartPage() {
     }
   );
 
-  const handleOrder = () => {
+  const onClickAddOrder = () => {
     if (data === null) {
       return;
     }
@@ -79,7 +79,6 @@ export default function CartPage() {
         {data?.map((item, i) => (
           <div key={item.id}>
             <Item {...item} />
-            <div className=" my-4 border"></div>
           </div>
         ))}
       </div>
@@ -90,7 +89,7 @@ export default function CartPage() {
         </div>
         <div
           className="text-3xl text-pink-500 rounded-md px-1 py-1 bg-gray-50 shadow-sm hover:cursor-pointer border-pink-600 border-2 focus:ring-pink-600 focus:ring-1"
-          onClick={handleOrder}
+          onClick={onClickAddOrder}
         >
           전체 주문
         </div>

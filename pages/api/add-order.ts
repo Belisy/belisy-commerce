@@ -33,7 +33,7 @@ async function addOrder(
         userId,
         orderItemIds: orderItemIds.join(","),
         ...orderInfo,
-        status: 0,
+        status: 1,
       },
     });
 
