@@ -14,12 +14,12 @@ async function getWishlists(userId: string) {
       },
     });
 
-    const productsId = wishlist?.productIds.split(",");
-    if (productsId && productsId.length > 0) {
-      const response;
-      console.log(response);
-      return response;
-    }
+    // const productsId = wishlist?.productIds.split(",");
+    // if (productsId && productsId.length > 0) {
+    //   const response;
+    //   console.log(response);
+    //   return response;
+    // }
 
     return [];
   } catch (err) {

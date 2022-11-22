@@ -35,6 +35,7 @@ export default async function handler(
     res.status(200).json({ data: [], message: "no Session" });
     return;
   }
+
   try {
     const product = await addCart(String(session.user?.id), item);
     res.status(200).json({ data: product, message: "Success" });

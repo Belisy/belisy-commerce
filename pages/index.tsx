@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import { categories, products } from "@prisma/client";
@@ -20,15 +20,19 @@ export default function Home() {
 
   const debouncedKeyword = useDebounce<string>(keyword);
   const take = 8;
-  const filters = [
-    { label: "최신순", value: "lagest" },
-    { label: "가격 높은순", value: "expensive" },
-    { label: "가격 낮은순", value: "cheap" },
-  ];
+  const filters = useMemo(
+    () => [
+      { label: "최신순", value: "lagest" },
+      { label: "가격 높은순", value: "expensive" },
+      { label: "가격 낮은순", value: "cheap" },
+    ],
+    []
+  );
+
   // 필터별
   useEffect(() => {
     setSelectedFilter(filters[0].value);
-  }, []);
+  }, [filters]);
 
   // 전체상품
   useEffect(() => {
@@ -93,7 +97,7 @@ export default function Home() {
         // setProducts((prev) => [...prev, ...data]);
       });
     setSkip(next);
-  }, [skip, productsArr, selectedFilter, selectedCategory]);
+  }, [skip, productsArr, selectedFilter, selectedCategory, debouncedKeyword]);
 
   const categoryStyle =
     "mx-2 px-1 hover:cursor-pointer border rounded-md bg-gray-50 shadow-sm font-semibold text-gray-500 hover:text-pink-500 hover:border-pink-500 hover:ring-pink-500 focus:ring-1";
