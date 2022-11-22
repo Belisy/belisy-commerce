@@ -1,4 +1,4 @@
-import { products, Cart } from "@prisma/client";
+import { products, Cart, OrderItem } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { useSession } from "next-auth/react";
@@ -110,12 +110,38 @@ export default function Product(props: { product: products }) {
         body: JSON.stringify({ item }),
       })
         .then((res) => res.json())
-        .then(({ data }) => data)
-    // {
-    //   onSuccess: () => {
-    //     queryClient.invalidateQueries(["/api/get-cart"]);
-    //   },
-    // }
+        .then(({ data }) => data),
+    {
+      onMutate: () => {
+        queryClient.invalidateQueries(["/api/get-cart"]);
+      },
+      // onSuccess: () => {
+      //   router.push("/cart");
+      // },
+    }
+  );
+
+  const { mutate: addOrder } = useMutation<
+    unknown,
+    unknown,
+    Omit<OrderItem, "id">[],
+    any
+  >(
+    (items) =>
+      fetch(`/api/add-order`, {
+        method: "POST",
+        body: JSON.stringify({ items }),
+      })
+        .then((res) => res.json())
+        .then(({ data }) => data),
+    {
+      onMutate: () => {
+        queryClient.invalidateQueries(["/api/get-order"]);
+      },
+      onSuccess: () => {
+        router.push("/order");
+      },
+    }
   );
 
   const validate = useCallback(
@@ -125,24 +151,32 @@ export default function Product(props: { product: products }) {
         return;
       }
 
-      const confirmMove = confirm("장바구니로 이동");
-
       if (type === "cart") {
+        const confirmCart = confirm("장바구니로 이동");
         addCart({
           productId: product.id,
           quantity: quantity,
           amount: product.price * quantity,
         });
 
-        return confirmMove && router.push("/cart");
+        return confirmCart && router.push("/cart");
+      }
+
+      if (type === "order") {
+        addOrder([
+          {
+            productId: product.id,
+            quantity: quantity,
+            price: product.price,
+            amount: product.price * quantity,
+          },
+        ]);
       }
     },
-    [product, quantity, addCart, router]
+    [product, quantity, addCart, addOrder, router]
   );
 
   const onClickCart = useCallback(() => {
-    console.log("2수량", quantity);
-
     if (session === null) {
       alert("로그인이 필요해요");
       router.push("/auth/login");
@@ -157,6 +191,15 @@ export default function Product(props: { product: products }) {
     }
     setQuantity(Number(e.target.value));
   }, []);
+
+  const onClickOrder = useCallback(() => {
+    if (session === null) {
+      alert("로그인이 필요해요");
+      router.push("/auth/login");
+      return;
+    }
+    validate("order");
+  }, [session, router, validate]);
 
   return (
     <main className="mt-5 grid place-items-center">
@@ -204,43 +247,59 @@ export default function Product(props: { product: products }) {
           </div>
         </div>
 
-        <div className="mt-1 mb-10 grid grid-rows-2 grid-cols-2 w-full text-xl">
+        <div className="mt-1 mb-10 grid grid-rows-1 grid-cols-2 w-full text-xl">
           <span className="text-3xl text-pink-500 font-semibold">
             {product && product.name}
           </span>
-
-          <div>
-            <div className="flex justify-end">
-              <div className="mr-3" onClick={onClickWish}>
-                {isWished ? (
-                  <Image
-                    className="cursor-pointer"
-                    src="/wishlist.svg"
-                    alt="wish"
-                    width={30}
-                    height={30}
-                  />
-                ) : (
-                  <Image
-                    className="cursor-pointer"
-                    src="/no-wish.svg"
-                    alt="no-wish"
-                    width={30}
-                    height={30}
-                  />
-                )}
-              </div>
-
-              <div onClick={onClickCart}>
+          <div className="flex justify-end mb-2">
+            <div
+              className="flex hover:cursor-pointer border rounded-md mr-5 p-1 bg-gray-50 shadow-sm"
+              onClick={onClickWish}
+            >
+              {isWished ? (
                 <Image
-                  className="mr-1 cursor-pointer"
-                  src="/cart.svg"
-                  alt="cart"
+                  className="mr-1"
+                  src="/wishlist.svg"
+                  alt="wish"
                   width={30}
                   height={30}
                 />
-              </div>
+              ) : (
+                <Image
+                  className="mr-1"
+                  src="/no-wish.svg"
+                  alt="no-wish"
+                  width={30}
+                  height={30}
+                />
+              )}
+              <div>찜하기</div>
             </div>
+
+            <div
+              className="flex hover:cursor-pointer border rounded-md p-1 bg-gray-50 shadow-sm"
+              onClick={onClickCart}
+            >
+              <Image
+                className="mr-1"
+                src="/cart.svg"
+                alt="cart"
+                width={25}
+                height={25}
+              />
+              <div>장바구니</div>
+            </div>
+          </div>
+
+          <div></div>
+
+          <div
+            className="mb-2 flex justify-end align-middle"
+            onClick={onClickOrder}
+          >
+            <span className="border rounded-md py-1 px-20 bg-gray-50 shadow-sm hover:cursor-pointer">
+              구매하기
+            </span>
           </div>
 
           <div></div>

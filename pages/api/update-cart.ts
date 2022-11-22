@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 async function updateCart(item: Cart) {
   try {
-    const response = prisma.cart.update({
+    const response = await prisma.cart.update({
       where: {
         id: item.id,
       },

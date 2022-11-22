@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { CartItem } from "./Type";
 import { Cart } from "@prisma/client";
+import Image from "next/image";
 
-const Item = (props: CartItem) => {
+const CartPageItem = (props: CartItem) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [quantity, setQuantity] = useState<number | undefined>(props.quantity);
@@ -96,26 +97,57 @@ const Item = (props: CartItem) => {
     setQuantity(Number(e.target.value));
   }, []);
   return (
-    <div>
+    <div className="grid grid-cols-[200px_minmax(200px,_1fr)_100px]">
       {/* <Image /> */}
-      <div>{props.name}</div>
-      <div className="">
-        수량
-        <input
-          className="w-9"
-          type="number"
-          value={quantity}
-          onChange={onChangeNum}
-        />
+      <Image
+        className="hover:cursor-pointer"
+        src={props.image_url ?? ""}
+        alt={props.name}
+        width={200}
+        height={200}
+        placeholder="blur"
+        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
+        onClick={() => {
+          router.push(`/products/${props.productId}`);
+        }}
+      />
+      <div className="ml-3 mr-40 relative">
+        <div className="text-2xl font-semibold text-pink-500">{props.name}</div>
+        <div className="flex absolute bottom-0 text-xl">
+          수량
+          <input
+            className="w-9"
+            type="number"
+            value={quantity}
+            onChange={onChangeNum}
+          />
+          <Image
+            className="hover:cursor-pointer"
+            src="/refresh.svg"
+            alt="refresh"
+            width={25}
+            height={25}
+            onClick={onClickUpdate}
+          />
+        </div>
       </div>
-      <div>{quantity}</div>
-      <div>{amount.toLocaleString("ko-KR")}원</div>
-      <span onClick={onClickUpdate}>새로고침</span> /{" "}
-      <span onClick={onClickDelete}>삭제</span>
-      <div>{props.productId}</div>
-      <br />
+
+      <div className="relative">
+        <Image
+          className="hover:cursor-pointer absolute right-0"
+          src="/delete.svg"
+          alt="delete"
+          width={25}
+          height={25}
+          onClick={onClickDelete}
+        />
+
+        <div className="absolute bottom-0 text-2xl font-bold text-pink-500">
+          {amount.toLocaleString("ko-KR")}원
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Item;
+export default CartPageItem;

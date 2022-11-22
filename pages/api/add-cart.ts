@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 async function addCart(userId: string, item: Omit<Cart, "id" | "userId">) {
   try {
-    const response = prisma.cart.create({
+    const response = await prisma.cart.create({
       data: {
         userId,
         ...item,

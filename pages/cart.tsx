@@ -1,10 +1,13 @@
-import { Cart } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
-import Item from "components/Item";
+import { OrderItem } from "@prisma/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Item from "components/CartPageItem";
 import { CartItem } from "components/Type";
-import { useMemo, useEffect, useState, useCallback } from "react";
+import { useMemo } from "react";
+import { useRouter } from "next/router";
 
 export default function CartPage() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const { data } = useQuery<{ items: CartItem[] }, unknown, CartItem[]>(
     ["/api/get-cart"],
     () =>
@@ -27,17 +30,71 @@ export default function CartPage() {
       .reduce((prev, current) => prev + current, 0);
   }, [data]);
 
+  const { mutate: addOrder } = useMutation<
+    unknown,
+    unknown,
+    Omit<OrderItem, "id">[],
+    any
+  >(
+    (items) =>
+      fetch(`/api/add-order`, {
+        method: "POST",
+        body: JSON.stringify({ items }),
+      })
+        .then((res) => res.json())
+        .then(({ data }) => data),
+    {
+      onMutate: () => {
+        queryClient.invalidateQueries(["/api/get-order"]);
+      },
+      onSuccess: () => {
+        router.push("/order");
+      },
+    }
+  );
+
+  const handleOrder = () => {
+    if (data === null) {
+      return;
+    }
+
+    const itemArr = data?.map((cart) => ({
+      productId: cart.productId,
+      quantity: cart.quantity,
+      price: cart.price,
+      amount: cart.amount,
+    }));
+
+    if (itemArr) {
+      addOrder(itemArr);
+    }
+
+    alert(`장바구니에 담긴 상품 ${JSON.stringify(data)} 주문`);
+  };
+
   return (
-    <>
-      <div>Cart ({data?.length})</div>
-      <div>
+    <div className="mx-36">
+      <div className="mb-1 text-2xl font-semibold">Cart ({data?.length})</div>
+      <div className="">
         {data?.map((item, i) => (
           <div key={item.id}>
             <Item {...item} />
+            <div className=" my-4 border"></div>
           </div>
         ))}
       </div>
-      <div>{amount}원</div>
-    </>
+
+      <div className="flex justify-end align-bottom mt-3 font-bold">
+        <div className="text-3xl text-gray-600 mr-5">
+          {amount?.toLocaleString("ko-KR")}원
+        </div>
+        <div
+          className="text-3xl text-pink-500 rounded-md px-1 py-1 bg-gray-50 shadow-sm hover:cursor-pointer border-pink-600 border-2 focus:ring-pink-600 focus:ring-1"
+          onClick={handleOrder}
+        >
+          전체 주문
+        </div>
+      </div>
+    </div>
   );
 }

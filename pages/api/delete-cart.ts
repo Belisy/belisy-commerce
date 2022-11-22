@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 async function deleteCart(id: number) {
   try {
-    const response = prisma.cart.delete({
+    const response = await prisma.cart.delete({
       where: {
         id: id,
       },
