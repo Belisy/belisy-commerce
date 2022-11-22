@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import Carousel from "nuka-carousel";
-import Image from "next/image";
 import CustomEditor from "components/Editor";
 import { useRouter } from "next/router";
-import { convertFromRaw, convertToRaw, EditorState } from "draft-js";
+import { convertToRaw, EditorState } from "draft-js";
 import { useQuery } from "@tanstack/react-query";
 
 // export async function getServerSideProps(context: GetServerSidePropsContext) {
