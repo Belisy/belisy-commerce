@@ -5,8 +5,6 @@ import { categories, products, User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import useDebounce from "hooks/useDebounce";
-import { userAgent } from "next/server";
-import UserInfo from "components/UserInfo";
 
 // TODO: 코드 리팩토링 및 컴포넌트화 필요
 

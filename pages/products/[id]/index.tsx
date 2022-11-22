@@ -59,14 +59,12 @@ export default function Product(props: { product: products }) {
         await queryClient.cancelQueries(["/api/get-wishlist"]);
         const previous = queryClient.getQueryData(["/api/get-wishlist"]);
 
-        queryClient.setQueryData<string[]>(
-          ["/api/get-wishlist"],
-          (old: string[]) =>
-            old
-              ? old.includes(String(productId))
-                ? old.filter((id) => id !== String(productId))
-                : [...old, String(productId)] //old.concat(String(productId))
-              : []
+        queryClient.setQueryData<string[]>(["/api/get-wishlist"], (old: any) =>
+          old
+            ? old.includes(String(productId))
+              ? old.filter((id: any) => id !== String(productId))
+              : [...old, String(productId)] //old.concat(String(productId))
+            : []
         );
 
         return { previous };
