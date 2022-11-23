@@ -196,7 +196,7 @@ export default function Product(props: { product: products }) {
 
   return (
     <main className="mt-5 grid place-items-center">
-      <div>
+      <div className="px-36">
         <div className="flex">
           <Carousel
             animation="fade"
@@ -227,11 +227,11 @@ export default function Product(props: { product: products }) {
                 onClick={() => setIndex(i)}
               >
                 <Image
-                  className="hover:cursor-pointer"
+                  className="hover:cursor-pointer w-full h-full"
                   src={img ?? ""}
                   alt={product?.name}
-                  width={400}
-                  height={350}
+                  width={500}
+                  height={400}
                   placeholder="blur"
                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
                 />
@@ -315,7 +315,7 @@ export default function Product(props: { product: products }) {
         </div>
       </div>
 
-      <div className="mb-5 text-2xl">{product && product.contents}</div>
+      <div className="mb-5 text-xl">{product && product.contents}</div>
     </main>
   );
 }
