@@ -8,39 +8,40 @@ import Carousel from "nuka-carousel";
 import { useCallback, useState } from "react";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  // const product = await fetch(
-  //   `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
-  // )
-  //   .then((res) => res.json())
-  //   .then(({ data }) => data);
+  const product = await fetch(
+    // `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
+    `https://belisy-commerce.vercel.app/api/get-product?id=${context.params?.id}`
+  )
+    .then((res) => res.json())
+    .then(({ data }) => data);
   const id = context.params?.id;
   return {
     props: {
-      id,
-      // product,
+      // id,
+      product,
     },
   };
 }
 
-// export default function Product(props: { product: products }) {
-export default function Product(props: { id: any }) {
+export default function Product(props: { product: products }) {
+  //export default function Product(props: { id: any }) {
   const [index, setIndex] = useState(0);
 
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data: session } = useSession();
-  //const { product } = props;
-  const { id } = props;
+  const { product } = props;
+  //const { id } = props;
 
   const { id: productId } = router.query;
 
   const [quantity, setQuantity] = useState(0);
 
-  const { data: product } = useQuery(["/api/get-product"], () =>
-    fetch(`/api/get-product?id=${id}`)
-      .then((res) => res.json())
-      .then(({ data }) => data)
-  );
+  // const { data: product } = useQuery(["/api/get-product"], () =>
+  //   fetch(`/api/get-product?id=${id}`)
+  //     .then((res) => res.json())
+  //     .then(({ data }) => data)
+  // );
 
   const { data: wishlist } = useQuery(["/api/get-wishlist"], () =>
     fetch("/api/get-wishlist")
