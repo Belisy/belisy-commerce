@@ -7,9 +7,9 @@ import { useRouter } from "next/router";
 import Carousel from "nuka-carousel";
 import { useCallback, useState } from "react";
 
-const nextauth_url: string = process.env.NEXTAUTH_URL ?? "";
-
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const nextauth_url: string = process.env.NEXTAUTH_URL ?? "";
+
   const product = await fetch(
     `${nextauth_url}/api/get-product?id=${context.params?.id}`
   )
