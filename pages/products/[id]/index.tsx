@@ -24,24 +24,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 export default function Product(props: { product: products }) {
-  //export default function Product(props: { id: any }) {
   const [index, setIndex] = useState(0);
 
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data: session } = useSession();
   const { product } = props;
-  //const { id } = props;
 
   const { id: productId } = router.query;
 
   const [quantity, setQuantity] = useState(0);
-
-  // const { data: product } = useQuery(["/api/get-product"], () =>
-  //   fetch(`/api/get-product?id=${id}`)
-  //     .then((res) => res.json())
-  //     .then(({ data }) => data)
-  // );
 
   const { data: wishlist } = useQuery(["/api/get-wishlist"], () =>
     fetch("/api/get-wishlist")
@@ -205,7 +197,7 @@ export default function Product(props: { product: products }) {
   return (
     <main className="mt-5 grid place-items-center">
       <div>
-        <div className="flex">
+        <div className="grid grid-cols-[minmax(100px,_1fr)_231.8px] grid-rows-1">
           <Carousel
             animation="fade"
             autoplay
