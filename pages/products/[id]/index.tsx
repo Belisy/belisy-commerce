@@ -7,18 +7,18 @@ import { useRouter } from "next/router";
 import Carousel from "nuka-carousel";
 import { useCallback, useState } from "react";
 
-//export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const product = await fetch(
-//     `${process.env.NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
-//   )
-//     .then((res) => res.json())
-//     .then(({ data }) => data);
-//   return {
-//     props: {
-//       product,
-//     },
-//   };
-//}
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const product = await fetch(
+    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
+  )
+    .then((res) => res.json())
+    .then(({ data }) => data);
+  return {
+    props: {
+      product,
+    },
+  };
+}
 
 export default function Product(props: { product: products }) {
   const [index, setIndex] = useState(0);
