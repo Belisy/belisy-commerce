@@ -8,10 +8,8 @@ import Carousel from "nuka-carousel";
 import { useCallback, useState } from "react";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const nextauth_url: string = process.env.NEXTAUTH_URL ?? "";
-
   const product = await fetch(
-    `${nextauth_url}/api/get-product?id=${context.params?.id}`
+    `${process.env.NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
   )
     .then((res) => res.json())
     .then(({ data }) => data);
