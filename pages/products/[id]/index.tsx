@@ -197,7 +197,7 @@ export default function Product(props: { product: products }) {
   return (
     <main className="mt-5 grid place-items-center">
       <div>
-        <div className="grid grid-cols-[minmax(100px,_1fr)_231.8px] grid-rows-1">
+        <div className="flex">
           <Carousel
             animation="fade"
             autoplay
@@ -230,8 +230,8 @@ export default function Product(props: { product: products }) {
                   className="hover:cursor-pointer"
                   src={img ?? ""}
                   alt={product?.name}
-                  width={1200}
-                  height={1200}
+                  width={400}
+                  height={350}
                   placeholder="blur"
                   blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
                 />
