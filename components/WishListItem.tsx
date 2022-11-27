@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { products } from "@prisma/client";
@@ -38,7 +38,6 @@ const WishListItem = (props: products) => {
 
   const onClickDelete = useCallback(() => {
     deleteWish(String(props.id));
-    console.log("프롭아이디", props.id);
     alert(`위시리스트에서 ${props.name}삭제`);
   }, [deleteWish, props.id, props.name]);
 

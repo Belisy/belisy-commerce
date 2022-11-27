@@ -37,7 +37,6 @@ async function updateWishlist(userId: string, productId: string) {
       },
     });
 
-    console.log("위시리스트", response);
     return response?.productIds.split(",");
   } catch (err) {
     console.error(err);

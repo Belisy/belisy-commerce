@@ -12,13 +12,6 @@ async function deleteOrder(id: number, orderItemIds: string) {
         id: id,
       },
     });
-
-    // const response = await prisma.orderItem.delete({
-    //   where: {
-    //     id: orderItemIds,
-    //   },
-    // });
-
     return response;
   } catch (err) {
     console.error(err);

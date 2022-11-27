@@ -31,7 +31,7 @@ export default function UserInfo() {
           alt="cart"
           width={25}
           height={25}
-          onClick={() => router.push("/wishlist")}
+          onClick={() => router.push("/wishlists")}
         />
       </div>
       {session ? (

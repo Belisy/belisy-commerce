@@ -1,13 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { OrderItemDetail } from "./Type";
-import { Cart } from "@prisma/client";
 import Image from "next/image";
 
 const OrderPageItem = (props: OrderItemDetail) => {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const [quantity, setQuantity] = useState<number | undefined>(props.quantity);
   const [amount, setAmount] = useState<number>(props.amount);
 

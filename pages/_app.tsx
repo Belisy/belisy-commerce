@@ -51,15 +51,7 @@ export default function App({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span>
-                <Image
-                  className="mx-auto mt-3"
-                  src="/vercel.svg"
-                  alt="Logo"
-                  width={72}
-                  height={16}
-                />
-              </span>
+              <span>💕</span>
             </a>
           </footer>
         </div>

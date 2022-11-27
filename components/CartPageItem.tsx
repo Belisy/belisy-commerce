@@ -73,7 +73,6 @@ const CartPageItem = (props: CartItem) => {
   );
 
   const onClickUpdate = useCallback(() => {
-    console.log("수량", quantity);
     if (quantity === null || quantity === undefined || quantity === 0) {
       alert("최소 수량을 선택하세요.");
       return;
@@ -146,7 +145,7 @@ const CartPageItem = (props: CartItem) => {
           />
 
           <div className="absolute bottom-0 text-2xl font-bold text-pink-500">
-            {amount.toLocaleString("ko-KR")}원
+            {amount?.toLocaleString("ko-KR")}원
           </div>
         </div>
       </div>

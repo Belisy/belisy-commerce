@@ -1,4 +1,3 @@
-import { Orders, OrderItem } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { OrderDetail } from "components/Type";
 import { format } from "date-fns";
