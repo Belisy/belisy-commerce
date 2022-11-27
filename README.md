@@ -2,7 +2,7 @@
 
 # **💞Belisy Commerce💞**
 
-**🌏배포 주소**: <a href="">Belisy Commerce Link</a>  
+**🌏배포 주소**: <a href="https://belisy-commerce.vercel.app">Belisy Commerce Link</a>  
 <br/>
 
 ## **🌼사용 기술🌼**
