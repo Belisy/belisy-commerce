@@ -67,7 +67,7 @@ TypeScript와 Next.js를 사용하여 구현한 커머스 서비스입니다.
 <span style="color:pink">**위시리스트 페이지**</span>
 
 🌾찜한 상품 목록 확인  
-🌾장바구니 담기
+🌾찜한 상품 위시리스트에서 제거
 
 <br/>
 
@@ -87,5 +87,61 @@ TypeScript와 Next.js를 사용하여 구현한 커머스 서비스입니다.
 🌾주문내역 삭제
 
 <br/>
+<br/>
+
+## **🌼Structure🌼**
 
 </div>
+
+```
+Belisy-Commerce
+├── Components
+│ ├── CartPageItem.tsx
+│ ├── GoogleLogin.tsx
+│ ├── OrderPageItem.tsx
+│ ├── Type.tsx
+│ ├── UserInfo.tsx
+│ └── WishListItem
+├── hooks
+│ └── useDebounce.ts
+├── pages
+│ ├── _app.tsx
+│ ├── cart.tsx
+│ ├── index.tsx
+│ ├── order.tsx
+│ ├── wishlists.tsx
+│ ├── api (Backend)
+│ │ ├── auth
+│ │ │ ├── [...nextauth].ts
+│ │ │ └── sign-up.ts
+│ │ ├── add-cart.ts
+│ │ ├── add-order.ts
+│ │ ├── delete-cart.ts
+│ │ ├── delete-order.ts
+│ │ ├── get-cart.ts
+│ │ ├── get-categories.ts
+│ │ ├── get-order.ts
+│ │ ├── get-product.ts
+│ │ ├── get-products-count.ts
+│ │ ├── get-products.ts
+│ │ ├── get-wishlist.ts
+│ │ ├── get-wishlists.ts
+│ │ ├── updata-cart.ts
+│ │ ├── update-product.ts
+│ │ └── update-wishlist.ts
+│ ├── auth
+│ │ └── login.tsx
+│ ├── products
+│ │ ├── [id]
+│ │ │ ├── edit.tsx
+│ └─└─└── index.tsx
+├── prisma
+│ ├── data-table.ts
+│ └── schema.prisma
+├── public(내부 구조 생략)
+├── styles
+│ ├── globals.css
+│ └── Home.module.css
+├── types
+└─└── next-auth.d.ts
+```
