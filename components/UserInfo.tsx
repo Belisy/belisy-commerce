@@ -1,10 +1,28 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 
 export default function UserInfo() {
   const { data: session } = useSession();
   const router = useRouter();
+
+  const onClickCart = useCallback(() => {
+    if (!session) {
+      const noSession = confirm("로그인이 필요합니다");
+      noSession && router.push("/auth/login");
+      return;
+    }
+    router.push("/cart");
+  }, [session, router]);
+  const onClickWish = useCallback(() => {
+    if (!session) {
+      const noSession = confirm("로그인이 필요합니다");
+      noSession && router.push("/auth/login");
+      return;
+    }
+    router.push("/wishlists");
+  }, [session, router]);
 
   return (
     <div className="text-right">
@@ -23,7 +41,7 @@ export default function UserInfo() {
           alt="cart"
           width={25}
           height={25}
-          onClick={() => router.push("/cart")}
+          onClick={onClickCart}
         />
         <Image
           className="cursor-pointer"
@@ -31,7 +49,7 @@ export default function UserInfo() {
           alt="cart"
           width={25}
           height={25}
-          onClick={() => router.push("/wishlists")}
+          onClick={onClickWish}
         />
       </div>
       {session ? (
