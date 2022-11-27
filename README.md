@@ -118,6 +118,7 @@ Belisy-Commerce
 │ │ ├── add-order.ts
 │ │ ├── delete-cart.ts
 │ │ ├── delete-order.ts
+│ │ ├── delete-wishlilst.ts
 │ │ ├── get-cart.ts
 │ │ ├── get-categories.ts
 │ │ ├── get-order.ts
