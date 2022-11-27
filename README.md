@@ -7,25 +7,25 @@
 
 ## **🌼사용 기술🌼**
 
-<span style="color:yellowgreen">**Language**</span>
+<span style="color:yellowgreen">**Language**</span>  
+📍 TypeScript
 
-TypeScript  
-Next.js  
-React Query
+<span style="color:yellowgreen">**Framework**</span>  
+📍 Next.js
 
-<span style="color:yellowgreen">**Style**</span>
+<span style="color:yellowgreen">**서버상태관리**</span>  
+📍 React Query
 
-Tailwind CSS  
-Emotion
+<span style="color:yellowgreen">**Style**</span>  
+📍 Tailwind CSS  
+📍 Emotion
 
-<span style="color:yellowgreen">**DB**</span>
+<span style="color:yellowgreen">**DB**</span>  
+📍 Prisma  
+📍 PlanetScale
 
-Prisma  
-PlanetScale
-
-<span style="color:yellowgreen">**Deploy**</span>
-
-Vercel
+<span style="color:yellowgreen">**Deploy**</span>  
+📍 Vercel
 
 <br/>
 <br/>
