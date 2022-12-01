@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
-import styled from "@emotion/styled";
-import { categories, products, User } from "@prisma/client";
+import { categories, products } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import useDebounce from "hooks/useDebounce";
@@ -114,7 +113,7 @@ export default function Home() {
           placeholder="상품명을 검색해보세요"
         />
         {keyword.length > 0 && (
-          <SearchStyle>
+          <div className="flex justify-center absolute right-5 top-0 bottom-0">
             <Image
               className="hover:cursor-pointer"
               src="/resetBtn.svg"
@@ -123,7 +122,7 @@ export default function Home() {
               height={20}
               onClick={onClickReset}
             />
-          </SearchStyle>
+          </div>
         )}
       </div>
 
@@ -199,12 +198,3 @@ export default function Home() {
     </main>
   );
 }
-
-const SearchStyle = styled.div`
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  right: 5px;
-  top: 0;
-  bottom: 0;
-`;
