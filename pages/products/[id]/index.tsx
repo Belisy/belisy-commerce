@@ -214,8 +214,7 @@ export default function Product(props: { product: products }) {
                 width={400}
                 height={350}
                 alt="image"
-                placeholder="blur"
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
+                priority
               />
             ))}
           </Carousel>
