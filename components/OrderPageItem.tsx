@@ -30,15 +30,15 @@ const OrderPageItem = (props: OrderItemDetail) => {
           }}
         />
         <div className="relative ml-1">
-          <div className="text-lg sm:text-xl 2sm:text-2xl lg:text-3xl font-semibold text-pink-500">
+          <div className="text-lg sm:text-xl md:text-2xl font-semibold text-pink-500">
             {props.name}
           </div>
-          <div className="flex absolute bottom-0 w-auto min-w-max text-base 2sm:text-lg lg:text-xl font-semibold">
+          <div className="flex absolute bottom-0 w-auto min-w-max text-base 2sm:text-lg font-semibold">
             수량 {props.quantity}
           </div>
         </div>
 
-        <div className="absolute bottom-0 right-0 w-auto text-base sm:text-xl 2sm:text-2xl font-bold text-pink-500">
+        <div className="absolute bottom-0 right-0 w-auto text-base sm:text-lg 2sm:text-xl md:text2xl font-bold text-pink-500">
           {amount.toLocaleString("ko-KR")}원
         </div>
       </div>
