@@ -19,3 +19,9 @@
     @apply text-sm sm:text-base 2sm:text-xl;
   }
 }
+
+@layer components {
+  .selected-pink {
+    @apply text-white bg-pink-500;
+  }
+}
