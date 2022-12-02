@@ -195,9 +195,9 @@ export default function Product(props: { product: products }) {
   }, [session, router, validate]);
 
   return (
-    <main className="mt-5 grid place-items-center">
-      <div className="px-36">
-        <div className="flex">
+    <main className="mt-5">
+      <div className="w-full 2sm:w-4/5 mx-auto">
+        <div className="flex relative">
           <Carousel
             animation="fade"
             autoplay
@@ -209,7 +209,7 @@ export default function Product(props: { product: products }) {
             {imageArr.map((url, i) => (
               <Image
                 key={`${url}-carousel-${i}`}
-                className="w-full"
+                className="w-4/5"
                 src={url ?? ""}
                 width={400}
                 height={350}
@@ -219,9 +219,10 @@ export default function Product(props: { product: products }) {
             ))}
           </Carousel>
 
-          <div>
+          <div className="absolute right-0 w-1/5 h-full">
             {imageArr.map((img, i) => (
               <div
+                className=""
                 key={`${product?.name}-carousel-${i}`}
                 onClick={() => setIndex(i)}
               >
@@ -239,7 +240,7 @@ export default function Product(props: { product: products }) {
           </div>
         </div>
 
-        <div className="mt-1 mb-10 grid grid-rows-1 grid-cols-2 w-full text-xl">
+        <div className="mt-1 mb-10  w-full text-xl">
           <span className="text-3xl text-pink-500 font-semibold">
             {product && product.name}
           </span>
