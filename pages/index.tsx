@@ -204,12 +204,12 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="grid overflow-x-hidden gap-y-10 gap-x-5 sm:grid-cols-2 md:grid-cols-4">
+      <div className="grid overflow-x-hidden gap-y-10 gap-x-5 sm:grid-cols-2 2sm:grid-cols-3 md:grid-cols-4">
         {productsArr &&
           productsArr.map((product, i) => (
             <div
               key={product.id}
-              className="hover:cursor-pointer"
+              className="hover:cursor-pointer "
               onClick={() => router.push(`/products/${product.id}`)}
             >
               <Image

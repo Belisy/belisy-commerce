@@ -41,7 +41,7 @@ export default function App({
             Belisy Commerce
           </div>
 
-          <div className="relative right-0 mb-2 text-xs sm:text-base md:text-lg lg:text-xl xl:text-2xl">
+          <div className="relative right-0 mb-2 text-xs sm:text-base md:text-lg lg:text-xl">
             <UserInfo />
           </div>
 

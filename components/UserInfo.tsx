@@ -23,6 +23,14 @@ export default function UserInfo() {
     }
     router.push("/wishlists");
   }, [session, router]);
+  const onClickOrder = useCallback(() => {
+    if (!session) {
+      const noSession = confirm("로그인이 필요합니다");
+      noSession && router.push("/auth/login");
+      return;
+    }
+    router.push("/order");
+  }, [session, router]);
 
   return (
     <div className="text-right">
@@ -46,10 +54,18 @@ export default function UserInfo() {
         <Image
           className="cursor-pointer"
           src="/wishlist.svg"
-          alt="cart"
+          alt="wish"
           width={25}
           height={25}
           onClick={onClickWish}
+        />
+        <Image
+          className="mr-1 cursor-pointer"
+          src="/order-page.svg"
+          alt="order"
+          width={25}
+          height={25}
+          onClick={onClickOrder}
         />
       </div>
       {session ? (
