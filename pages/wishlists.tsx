@@ -12,11 +12,11 @@ export default function WishLists() {
   );
 
   return (
-    <div className="mx-36">
-      <div className="mb-1 text-2xl font-semibold">
+    <div className="w-full 2sm:w-4/5 mx-auto">
+      <div className="mb-3 text-xl sm:text-2xl md:text-3xl font-semibold  lg:w-5/6 mx-auto">
         WishList ({data?.length})
       </div>
-      <div className="">
+      <div>
         {data?.map((item) => (
           <div key={item.id} className="">
             <WishListItem {...item} />

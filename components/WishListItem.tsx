@@ -43,9 +43,9 @@ const WishListItem = (props: products) => {
 
   return (
     <>
-      <div className="flex relative">
+      <div className="flex relative w-full lg:w-5/6 mx-auto">
         <Image
-          className="hover:cursor-pointer"
+          className="hover:cursor-pointer  w-20 sm:w-24 2sm:w-28 md:w-32 lg:w-40"
           src={props.image_url ?? ""}
           alt={props.name}
           width={200}
@@ -57,13 +57,13 @@ const WishListItem = (props: products) => {
           }}
         />
 
-        <div className="text-2xl font-bold text-pink-500  ml-3">
+        <div className="text-lg 2sm:text-xl lg:text-2xl font-bold text-pink-500  ml-3">
           {props.name}
         </div>
 
-        <div className="">
+        <div>
           <Image
-            className="flex absolute right-0 top-0 hover:cursor-pointer"
+            className="flex absolute right-0 top-0 w-5 h-5 sm:w-6 sm:h-6 hover:cursor-pointer"
             src="/delete.svg"
             alt="delete"
             width={25}
@@ -71,7 +71,7 @@ const WishListItem = (props: products) => {
             onClick={onClickDelete}
           />
 
-          <div className="text-2xl font-bold text-pink-500 absolute right-0 bottom-0">
+          <div className="text-lg sm:text-xl 2sm:text-2xl font-bold text-pink-500 absolute right-0 bottom-0">
             {props.price.toLocaleString("ko-KR")}원
           </div>
         </div>
