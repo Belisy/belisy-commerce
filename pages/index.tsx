@@ -134,14 +134,14 @@ export default function Home() {
           value={selectedFilter}
         >
           {filters.map((filter) => (
-            <option key={filter.value} value={filter.value}>
+            <option key={filter.value} value={filter.value} className="">
               {filter.label}
             </option>
           ))}
         </select>
 
         <div className="overflow-auto">
-          <ul className="flex ">
+          <ul className="flex min-w-max">
             <li className={categoryStyle} value={0} onClick={onClickCategory}>
               전체
             </li>
@@ -150,7 +150,7 @@ export default function Home() {
                 <li
                   key={`${i}-${el}`}
                   value={el.id}
-                  className={categoryStyle}
+                  className={`${categoryStyle}`}
                   onClick={onClickCategory}
                 >
                   {el.name}
