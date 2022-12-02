@@ -18,7 +18,7 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <div className="mt-5 mb-10 px-20 ">
+        <div className="relative mt-5 mb-2 sm:mb-3 mx-10 xl:mx-20 2xl:mx-32">
           <Head>
             <title>Belisy Commerce</title>
             <meta charSet="utf-8" />
@@ -37,16 +37,17 @@ export default function App({
             />
           </Head>
 
-          <div className="text-center">
-            <div className="my-10 text-7xl font-bold text-pink-500">
-              Belisy Commerce
-            </div>
+          <div className="mx-auto text-center mb-5 text-2xl sm:text-5xl md:text-7xl font-bold text-pink-500">
+            Belisy Commerce
           </div>
-          <UserInfo />
+
+          <div className="relative right-0 mb-2 text-xs sm:text-base md:text-lg lg:text-xl xl:text-2xl">
+            <UserInfo />
+          </div>
 
           <Component {...pageProps} />
 
-          <footer className="mt-10 text-center">
+          <footer className="mt-5 sm:mt-8 md:mt-10 text-center">
             <div className="border mb-3"></div>
             <div>문의: lssoy77@gmail.com</div>
             <a

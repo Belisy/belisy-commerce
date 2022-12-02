@@ -99,23 +99,23 @@ export default function Home() {
   }, [skip, productsArr, selectedFilter, selectedCategory, debouncedKeyword]);
 
   const categoryStyle =
-    "mx-2 px-1 hover:cursor-pointer border rounded-md bg-gray-50 shadow-sm font-semibold text-gray-500 hover:text-pink-500 hover:border-pink-500 hover:ring-pink-500 focus:ring-1";
+    "btn-hover-pink mx-2 px-1 hover:cursor-pointer border hover:ring-pink-500 focus:ring-1";
 
   return (
-    <main className="grid place-items-center">
+    <main className="">
       {/* 검색 */}
-      <div className="flex mb-5 relative">
+      <div className="flex mb-5 relative w-4/5 md:max-w-screen-md mx-auto">
         <input
-          className="placeholder:italic placeholder:text-pink-400 block bg-gray-50 w-80 border rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1 sm:text-sm"
+          className="placeholder:italic w-full placeholder:text-pink-400 text-xs sm:text-base block bg-gray-50 border rounded-md py-2 px-3 shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1 "
           ref={inputRef}
           value={keyword}
           onChange={onChangeSearch}
           placeholder="상품명을 검색해보세요"
         />
         {keyword.length > 0 && (
-          <div className="flex justify-center absolute right-5 top-0 bottom-0">
+          <div className="flex justify-center absolute top-0 bottom-0 right-5">
             <Image
-              className="hover:cursor-pointer"
+              className="hover:cursor-pointer sm:w-6"
               src="/resetBtn.svg"
               alt="검색창 초기화"
               width={20}
@@ -127,34 +127,38 @@ export default function Home() {
       </div>
 
       {/* filter */}
-      <select
-        className="bg-gray-50 border rounded-md mb-5 shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1"
-        onChange={onChangeFilter}
-        value={selectedFilter}
-      >
-        {filters.map((filter) => (
-          <option key={filter.value} value={filter.value}>
-            {filter.label}
-          </option>
-        ))}
-      </select>
-
-      <ul className="flex mb-10">
-        <li className={categoryStyle} value={0} onClick={onClickCategory}>
-          전체
-        </li>
-        {categories &&
-          categories.map((el, i) => (
-            <li
-              key={`${i}-${el}`}
-              value={el.id}
-              className={categoryStyle}
-              onClick={onClickCategory}
-            >
-              {el.name}
-            </li>
+      <div className="flex justify-center align-middle mb-10">
+        <select
+          className="mr-6 bg-gray-50 border rounded-md shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1"
+          onChange={onChangeFilter}
+          value={selectedFilter}
+        >
+          {filters.map((filter) => (
+            <option key={filter.value} value={filter.value}>
+              {filter.label}
+            </option>
           ))}
-      </ul>
+        </select>
+
+        <div className="overflow-auto">
+          <ul className="flex ">
+            <li className={categoryStyle} value={0} onClick={onClickCategory}>
+              전체
+            </li>
+            {categories &&
+              categories.map((el, i) => (
+                <li
+                  key={`${i}-${el}`}
+                  value={el.id}
+                  className={categoryStyle}
+                  onClick={onClickCategory}
+                >
+                  {el.name}
+                </li>
+              ))}
+          </ul>
+        </div>
+      </div>
 
       <div className="grid overflow-x-hidden gap-y-10 gap-x-5 sm:grid-cols-2 md:grid-cols-4">
         {productsArr &&
@@ -187,7 +191,7 @@ export default function Home() {
 
       {totalCount && totalCount > skip + take ? (
         <button
-          className="container mx-auto mt-10 p-1 bg-gray-50 shadow-sm text-gray-500 font-semibold border-2 rounded hover:border-pink-500 hover:text-pink-500"
+          className="btn-hover-pink w-full mx-auto mt-10 p-1 border-2 "
           onClick={onClickMore}
         >
           더보기
