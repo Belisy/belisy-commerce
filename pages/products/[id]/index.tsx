@@ -196,110 +196,108 @@ export default function Product(props: { product: products }) {
   }, [session, router, validate]);
 
   return (
-    <main className="mt-5">
-      <div className="w-full 2sm:w-4/5 mx-auto">
-        <div className="flex relative">
-          <Carousel
-            animation="fade"
-            autoplay
-            withoutControls
-            wrapAround //무한히 슬라이드 돌아감
-            speed={3}
-            slideIndex={index}
-          >
-            {imageArr.map((url, i) => (
+    <div className="mt-5 w-full 2sm:w-4/5 mx-auto">
+      <div className="flex relative">
+        <Carousel
+          animation="fade"
+          autoplay
+          withoutControls
+          wrapAround //무한히 슬라이드 돌아감
+          speed={3}
+          slideIndex={index}
+        >
+          {imageArr.map((url, i) => (
+            <Image
+              key={`${url}-carousel-${i}`}
+              className="w-4/5"
+              src={url ?? ""}
+              width={400}
+              height={350}
+              alt="image"
+              priority
+            />
+          ))}
+        </Carousel>
+
+        <div className="absolute right-0 w-1/5 h-full">
+          {imageArr.map((img, i) => (
+            <div
+              className=""
+              key={`${product?.name}-carousel-${i}`}
+              onClick={() => setIndex(i)}
+            >
               <Image
-                key={`${url}-carousel-${i}`}
-                className="w-4/5"
-                src={url ?? ""}
-                width={400}
-                height={350}
-                alt="image"
-                priority
-              />
-            ))}
-          </Carousel>
-
-          <div className="absolute right-0 w-1/5 h-full">
-            {imageArr.map((img, i) => (
-              <div
-                className=""
-                key={`${product?.name}-carousel-${i}`}
-                onClick={() => setIndex(i)}
-              >
-                <Image
-                  className="hover:cursor-pointer w-full h-full"
-                  src={img ?? ""}
-                  alt={product?.name}
-                  width={500}
-                  height={400}
-                  placeholder="blur"
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-1 mb-10 ">
-          <span className="text-xl sm:text-3xl text-pink-500 font-semibold">
-            {product && product.name}
-          </span>
-
-          <div className="flex justify-end mb-2">
-            <div className="btn-img mr-5" onClick={onClickWish}>
-              <Image
-                className="mr-1 w-5 sm:w-7 h-5 sm:h-7"
-                src={isWished ? "/wishlist.svg" : "/no-wish.svg"}
-                alt="wish"
-                width={30}
-                height={30}
-              />
-              <div className="detail-btn-text">찜하기</div>
-            </div>
-
-            <div className="btn-img" onClick={onClickCart}>
-              <Image
-                className="mr-1 w-5 sm:w-7 h-5 sm:h-7"
-                src="/cart.svg"
-                alt="cart"
-                width={25}
-                height={25}
-              />
-              <div className="detail-btn-text">장바구니</div>
-            </div>
-          </div>
-
-          <div
-            className="mb-2 flex justify-end align-middle"
-            onClick={onClickOrder}
-          >
-            <span className="detail-btn-text w-3/5 md:max-w-screen-sm text-center border rounded-md py-1  bg-gray-50 shadow-sm hover:cursor-pointer">
-              구매하기
-            </span>
-          </div>
-
-          <div className="flex justify-end">
-            <div className="flex">
-              <div className="mr-1">수량</div>
-              <input
-                className="w-9"
-                type="number"
-                value={quantity}
-                onChange={onChangeNum}
+                className="hover:cursor-pointer w-full h-full"
+                src={img ?? ""}
+                alt={product?.name}
+                width={500}
+                height={400}
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
               />
             </div>
-
-            <span className="text-lg sm:text-xl md:text-2xl text-gray-400 font-semibold">
-              {product && product.price?.toLocaleString("ko-KR")}원
-            </span>
-          </div>
-        </div>
-
-        <div className="detail-btn-text md:text-2xl mb-5 text-center">
-          {product && product.contents}
+          ))}
         </div>
       </div>
-    </main>
+
+      <div className="mt-1 mb-10 ">
+        <span className="text-xl sm:text-3xl text-pink-500 font-semibold">
+          {product && product.name}
+        </span>
+
+        <div className="flex justify-end mb-2">
+          <div className="btn-img mr-5" onClick={onClickWish}>
+            <Image
+              className="mr-1 w-5 sm:w-7 h-5 sm:h-7"
+              src={isWished ? "/wishlist.svg" : "/no-wish.svg"}
+              alt="wish"
+              width={30}
+              height={30}
+            />
+            <div className="detail-btn-text">찜하기</div>
+          </div>
+
+          <div className="btn-img" onClick={onClickCart}>
+            <Image
+              className="mr-1 w-5 sm:w-7 h-5 sm:h-7"
+              src="/cart.svg"
+              alt="cart"
+              width={25}
+              height={25}
+            />
+            <div className="detail-btn-text">장바구니</div>
+          </div>
+        </div>
+
+        <div
+          className="mb-2 flex justify-end align-middle"
+          onClick={onClickOrder}
+        >
+          <span className="detail-btn-text w-3/5 md:max-w-screen-sm text-center border rounded-md py-1  bg-gray-50 shadow-sm hover:cursor-pointer">
+            구매하기
+          </span>
+        </div>
+
+        <div className="flex justify-end">
+          <div className="flex">
+            <div className="mr-1">수량</div>
+            <input
+              className="w-9"
+              type="number"
+              value={quantity}
+              onChange={onChangeNum}
+            />
+          </div>
+
+          <span className="text-lg sm:text-xl md:text-2xl text-gray-400 font-semibold">
+            {product && product.price?.toLocaleString("ko-KR")}원
+          </span>
+        </div>
+      </div>
+
+      <div className="detail-btn-text md:text-2xl mb-5 text-center">
+        {product && product.contents}
+      </div>
+    </div>
   );
 }

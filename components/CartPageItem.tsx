@@ -97,10 +97,9 @@ const CartPageItem = (props: CartItem) => {
   }, []);
   return (
     <>
-      <div className="grid grid-cols-[200px_minmax(200px,_1fr)_100px]">
-        {/* <Image /> */}
+      <div className="flex w-full lg:w-5/6 relative mx-auto">
         <Image
-          className="hover:cursor-pointer"
+          className="hover:cursor-pointer w-20 sm:w-24 2sm:w-28 md:w-32 lg:w-40"
           src={props.image_url ?? ""}
           alt={props.name}
           width={200}
@@ -111,20 +110,21 @@ const CartPageItem = (props: CartItem) => {
             router.push(`/products/${props.productId}`);
           }}
         />
-        <div className="ml-3 mr-40 relative">
-          <div className="text-2xl font-semibold text-pink-500">
+
+        <div className="min-w-full ml-3 relative">
+          <div className="text-lg sm:text-xl 2sm:text-2xl lg:text-3xl font-semibold text-pink-500">
             {props.name}
           </div>
-          <div className="flex absolute bottom-0 text-xl">
+          <div className="flex absolute bottom-0 w-auto text-base sm:text-lg lg:text-xl">
             수량
             <input
-              className="w-9"
+              className="w-7"
               type="number"
               value={quantity}
               onChange={onChangeNum}
             />
             <Image
-              className="hover:cursor-pointer"
+              className="hover:cursor-pointer w-5 h-5 sm:w-6 sm:h-6 my-auto"
               src="/refresh.svg"
               alt="refresh"
               width={25}
@@ -134,9 +134,9 @@ const CartPageItem = (props: CartItem) => {
           </div>
         </div>
 
-        <div className="relative">
+        <div className="w-auto">
           <Image
-            className="hover:cursor-pointer absolute right-0"
+            className="hover:cursor-pointer w-5 h-5 sm:w-6 sm:h-6 my-auto absolute right-0 top-0"
             src="/delete.svg"
             alt="delete"
             width={25}
@@ -144,7 +144,7 @@ const CartPageItem = (props: CartItem) => {
             onClick={onClickDelete}
           />
 
-          <div className="absolute bottom-0 text-2xl font-bold text-pink-500">
+          <div className="absolute right-0 bottom-0 w-auto text-lg sm:text-xl 2sm:text-2xl font-bold text-pink-500">
             {amount?.toLocaleString("ko-KR")}원
           </div>
         </div>
