@@ -4,11 +4,13 @@ import { categories, products } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import useDebounce from "hooks/useDebounce";
+import { BlockList } from "net";
 
 // TODO: 코드 리팩토링 및 컴포넌트화 필요
 
 export default function Home() {
   const router = useRouter();
+  const filterRef = useRef<HTMLUListElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [keyword, setKeyword] = useState("");
   const [skip, setSkip] = useState(0);
@@ -27,7 +29,8 @@ export default function Home() {
     ],
     []
   );
-
+  const currentFilter = filters.filter((el) => el.value === selectedFilter)[0];
+  const currentFilterLabel = currentFilter?.label;
   // 필터별
   useEffect(() => {
     setSelectedFilter(filters[0].value);
@@ -76,12 +79,25 @@ export default function Home() {
   }, []);
   // 필터
   const onChangeFilter = useCallback((e: any) => {
-    setSelectedFilter(e.target.value);
+    const classlist = filterRef?.current?.classList;
+    setSelectedFilter(e.target.id);
+    classlist?.remove("block");
+    classlist?.add("hidden");
+  }, []);
+  const onClickFilter = useCallback(() => {
+    const classlist = filterRef?.current?.classList;
+    if (classlist?.contains("hidden")) {
+      classlist?.remove("hidden");
+      classlist?.add("block");
+    } else {
+      classlist?.remove("block");
+      classlist?.add("hidden");
+    }
   }, []);
   // 카테고리
   const onClickCategory = useCallback((e: any) => {
     setSelectedCategory(Number(e.target.value));
-    console.log("dd", e.target);
+    // e.target.classList.add("selected-pink");
   }, []);
   // 더보기-상품 더 불러오기
   const onClickMore = useCallback(() => {
@@ -99,7 +115,7 @@ export default function Home() {
   }, [skip, productsArr, selectedFilter, selectedCategory, debouncedKeyword]);
 
   const categoryStyle =
-    "btn-hover-pink mx-2 px-1 hover:cursor-pointer border hover:ring-pink-500 focus:ring-1";
+    "btn-hover-pink hover:text-white hover:bg-pink-500 mx-2 px-1 hover:cursor-pointer border";
 
   return (
     <main className="">
@@ -128,21 +144,47 @@ export default function Home() {
 
       {/* filter */}
       <div className="flex justify-center align-middle mb-10">
-        <select
-          className="mr-6 bg-gray-50 border rounded-md shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1"
-          onChange={onChangeFilter}
-          value={selectedFilter}
-        >
-          {filters.map((filter) => (
-            <option key={filter.value} value={filter.value} className="">
-              {filter.label}
-            </option>
-          ))}
-        </select>
+        <div className="min-w-fit relative">
+          <div
+            className="flex mr-6 px-1 hover:cursor-pointer bg-gray-50 border rounded-md shadow-sm font-semibold text-gray-500"
+            onClick={onClickFilter}
+          >
+            {currentFilterLabel}
+            <Image
+              src="/drop-down.svg"
+              alt="filter"
+              width={20}
+              height={20}
+              className="ml-1"
+            />
+          </div>
+
+          <ul
+            ref={filterRef}
+            className="hidden absolute left-0 bg-gray-50 border rounded-md shadow-sm focus:outline-none focus:border-pink-500 focus:ring-pink-500 focus:ring-1"
+          >
+            {filters.map((filter) => (
+              <li
+                key={filter.value}
+                id={filter.value}
+                onClick={onChangeFilter}
+                className="w-full h-full rounded-md px-1 font-semibold text-gray-500 hover:cursor-pointer hover:text-pink-500"
+              >
+                {filter.label}
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <div className="overflow-auto">
           <ul className="flex min-w-max">
-            <li className={categoryStyle} value={0} onClick={onClickCategory}>
+            <li
+              className={`${categoryStyle} ${
+                selectedCategory === 0 ? `selected-pink` : ``
+              }`}
+              value={0}
+              onClick={onClickCategory}
+            >
               전체
             </li>
             {categories &&
@@ -150,7 +192,9 @@ export default function Home() {
                 <li
                   key={`${i}-${el}`}
                   value={el.id}
-                  className={`${categoryStyle}`}
+                  className={`${categoryStyle} ${
+                    selectedCategory === el.id ? `selected-pink` : ``
+                  }`}
                   onClick={onClickCategory}
                 >
                   {el.name}
