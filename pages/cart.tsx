@@ -77,7 +77,7 @@ export default function CartPage() {
       <div className="mb-3 text-xl sm:text-2xl md:text-3xl font-semibold lg:w-5/6 mx-auto">
         Cart ({data?.length})
       </div>
-      <div className="">
+      <div>
         {data?.map((item, i) => (
           <div key={item.id}>
             <Item {...item} />
@@ -90,7 +90,7 @@ export default function CartPage() {
           {amount?.toLocaleString("ko-KR")}원
         </div>
         <div
-          className=" text-xl sm:text-2xl md:text-3xl text-pink-500 rounded-md px-1 py-1 bg-gray-50 shadow-sm hover:cursor-pointer border-pink-600 border-2 focus:ring-pink-600 focus:ring-1"
+          className="text-xl sm:text-2xl md:text-3xl text-pink-500 rounded-md px-1 py-1 bg-gray-50 shadow-sm hover:cursor-pointer border-pink-600 border-2 focus:ring-pink-600 focus:ring-1"
           onClick={onClickAddOrder}
         >
           전체 주문

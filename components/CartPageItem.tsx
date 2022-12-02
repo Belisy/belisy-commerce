@@ -111,11 +111,11 @@ const CartPageItem = (props: CartItem) => {
           }}
         />
 
-        <div className="min-w-full ml-3 relative">
+        <div className="ml-3 relative">
           <div className="text-lg sm:text-xl 2sm:text-2xl lg:text-3xl font-semibold text-pink-500">
             {props.name}
           </div>
-          <div className="flex absolute bottom-0 w-auto text-base sm:text-lg lg:text-xl">
+          <div className="flex absolute bottom-0 w-auto min-w-max text-base sm:text-lg lg:text-xl">
             수량
             <input
               className="w-7"

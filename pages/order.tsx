@@ -29,8 +29,10 @@ export default function OrderPage() {
   );
 
   return (
-    <div className="mx-36">
-      <h1 className="mb-2 text-2xl font-semibold">주문내역 ({data?.length})</h1>
+    <div className="w-full 2sm:w-4/5 mx-auto">
+      <h1 className="mb-3 text-xl sm:text-2xl md:text-3xl lg:w-5/6 mx-auto font-semibold">
+        주문내역 ({data?.length})
+      </h1>
 
       <div>
         {data?.map((item, i) => (
@@ -80,33 +82,36 @@ const DetailItem = (props: OrderDetail) => {
   }, [props.id, deleteOrder]);
 
   return (
-    <div className="relative border mb-5 p-4">
-      <div className="flex mb-2">
-        <div className="text-lg mr-1">No.{props.id}</div>
-        <span className="mr-3 border rounded-md px-1 border-pink-500 bg-pink-500 text-lg text-white font-semibold">
-          {ORDER_STATUS[props.status]}
-        </span>
-
-        <div className="text-lg">
-          주문 일자 :{" "}
-          {format(new Date(props.createdAt), "yyyy년 M월 d일 HH:mm:ss")}
+    <div className="relative w-full lg:w-5/6 mx-auto border mb-5 p-4">
+      <span className="min-w-fit max-h-fit mr-3 text-base lg:text-xl border rounded-md px-1 border-pink-500 bg-pink-500 text-white font-semibold">
+        {ORDER_STATUS[props.status]}
+      </span>
+      <div className="flex flex-wrap mb-2">
+        <div className="text-base sm:text-lg lg:text-xl mr-1">
+          No.{props.id}
         </div>
 
-        <Image
-          className="absolute right-4 hover:cursor-pointer"
-          src="/delete.svg"
-          alt="delete"
-          width={25}
-          height={25}
-          onClick={onClickDelete}
-        />
+        <div className="flex flex-wrap justify-between text-base sm:text-lg lg:text-xl">
+          <div>주문 일자</div>
+          <div className="pr-5">
+            : {format(new Date(props.createdAt), "yyyy년 M월 d일 HH:mm:ss")}
+          </div>
+          <Image
+            className="absolute right-4 hover:cursor-pointer w-5 h-5 sm:w-6 sm:h-6 my-auto"
+            src="/delete.svg"
+            alt="delete"
+            width={25}
+            height={25}
+            onClick={onClickDelete}
+          />
+        </div>
       </div>
 
       {props.orderItems.map((orderItem, i) => (
         <OrderPageItem key={i} {...orderItem} />
       ))}
 
-      <div className="text-lg">
+      <div className="text-base sm:text-lg lg:text-xl">
         <div>받는 사람 :{props.receiver ?? " 입력 필요"}</div>
         <div>주소 :{props.receiver ?? " 입력 필요"}</div>
         <div>연락처 :{props.receiver ?? " 입력 필요"}</div>
@@ -114,8 +119,8 @@ const DetailItem = (props: OrderDetail) => {
 
       <div className="my-4 border border-gray-100 bg-gray-100"></div>
 
-      <div className="flex relative">
-        <div className="text-lg font-semibold">
+      <div className="flex relative text-base 2sm:text-lg md:text-xl font-semibold">
+        <div className="">
           합계 금액 :{" "}
           {props.orderItems
             .map((item, i) => item.amount)
@@ -123,7 +128,7 @@ const DetailItem = (props: OrderDetail) => {
             .toLocaleString("ko-kr")}{" "}
         </div>
 
-        <button className="absolute right-0 bottom-0 border rounded-md px-3 py-1 border-pink-500 bg-pink-500 text-xl text-white font-semibold">
+        <button className="absolute right-0 bottom-0 border rounded-md min-w-fit max-h-fit px-3 py-1 border-pink-500 bg-pink-500 text-white font-semibold">
           {ORDER_STATUS[props.status] === "결제대기" || "주문대기"
             ? "결제하기"
             : "결제완료"}

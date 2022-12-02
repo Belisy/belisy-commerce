@@ -16,9 +16,9 @@ const OrderPageItem = (props: OrderItemDetail) => {
 
   return (
     <>
-      <div className="grid grid-cols-[200px_minmax(200px,_1fr)_100px]">
+      <div className="flex relative">
         <Image
-          className="hover:cursor-pointer"
+          className="hover:cursor-pointer w-20 sm:w-24 2sm:w-28 md:w-32 lg:w-40"
           src={props.image_url ?? ""}
           alt={props.name}
           width={200}
@@ -29,19 +29,17 @@ const OrderPageItem = (props: OrderItemDetail) => {
             router.push(`/products/${props.productId}`);
           }}
         />
-        <div className="ml-3 mr-40 relative">
-          <div className="text-2xl font-semibold text-pink-500">
+        <div className="relative ml-1">
+          <div className="text-lg sm:text-xl 2sm:text-2xl lg:text-3xl font-semibold text-pink-500">
             {props.name}
           </div>
-          <div className="flex absolute bottom-0 text-xl font-semibold">
+          <div className="flex absolute bottom-0 w-auto min-w-max text-base 2sm:text-lg lg:text-xl font-semibold">
             수량 {props.quantity}
           </div>
         </div>
 
-        <div className="relative">
-          <div className="absolute bottom-0 text-2xl font-bold text-pink-500">
-            {amount.toLocaleString("ko-KR")}원
-          </div>
+        <div className="absolute bottom-0 right-0 w-auto text-base sm:text-xl 2sm:text-2xl font-bold text-pink-500">
+          {amount.toLocaleString("ko-KR")}원
         </div>
       </div>
       <div className="my-4 border border-gray-100 bg-gray-100"></div>
