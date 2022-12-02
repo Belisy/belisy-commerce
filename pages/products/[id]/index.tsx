@@ -82,6 +82,7 @@ export default function Product(props: { product: products }) {
     product?.image_url,
     "https://picsum.photos/id/1011/400/300/",
     "https://picsum.photos/id/912/400/300/",
+    "https://picsum.photos/id/918/400/300/",
   ];
 
   const onClickWish = useCallback(() => {
@@ -240,62 +241,43 @@ export default function Product(props: { product: products }) {
           </div>
         </div>
 
-        <div className="mt-1 mb-10  w-full text-xl">
-          <span className="text-3xl text-pink-500 font-semibold">
+        <div className="mt-1 mb-10 ">
+          <span className="text-xl sm:text-3xl text-pink-500 font-semibold">
             {product && product.name}
           </span>
+
           <div className="flex justify-end mb-2">
-            <div
-              className="flex hover:cursor-pointer border rounded-md mr-5 p-1 bg-gray-50 shadow-sm"
-              onClick={onClickWish}
-            >
-              {isWished ? (
-                <Image
-                  className="mr-1"
-                  src="/wishlist.svg"
-                  alt="wish"
-                  width={30}
-                  height={30}
-                />
-              ) : (
-                <Image
-                  className="mr-1"
-                  src="/no-wish.svg"
-                  alt="no-wish"
-                  width={30}
-                  height={30}
-                />
-              )}
-              <div>찜하기</div>
+            <div className="btn-img mr-5" onClick={onClickWish}>
+              <Image
+                className="mr-1 w-5 sm:w-7 h-5 sm:h-7"
+                src={isWished ? "/wishlist.svg" : "/no-wish.svg"}
+                alt="wish"
+                width={30}
+                height={30}
+              />
+              <div className="detail-btn-text">찜하기</div>
             </div>
 
-            <div
-              className="flex hover:cursor-pointer border rounded-md p-1 bg-gray-50 shadow-sm"
-              onClick={onClickCart}
-            >
+            <div className="btn-img" onClick={onClickCart}>
               <Image
-                className="mr-1"
+                className="mr-1 w-5 sm:w-7 h-5 sm:h-7"
                 src="/cart.svg"
                 alt="cart"
                 width={25}
                 height={25}
               />
-              <div>장바구니</div>
+              <div className="detail-btn-text">장바구니</div>
             </div>
           </div>
-
-          <div></div>
 
           <div
             className="mb-2 flex justify-end align-middle"
             onClick={onClickOrder}
           >
-            <span className="border rounded-md py-1 px-20 bg-gray-50 shadow-sm hover:cursor-pointer">
+            <span className="detail-btn-text w-3/5 md:max-w-screen-sm text-center border rounded-md py-1  bg-gray-50 shadow-sm hover:cursor-pointer">
               구매하기
             </span>
           </div>
-
-          <div></div>
 
           <div className="flex justify-end">
             <div className="flex">
@@ -308,14 +290,16 @@ export default function Product(props: { product: products }) {
               />
             </div>
 
-            <span className="text-2xl text-gray-400 font-semibold">
+            <span className="text-lg sm:text-xl md:text-2xl text-gray-400 font-semibold">
               {product && product.price?.toLocaleString("ko-KR")}원
             </span>
           </div>
         </div>
-      </div>
 
-      <div className="mb-5 text-xl">{product && product.contents}</div>
+        <div className="detail-btn-text md:text-2xl mb-5 text-center">
+          {product && product.contents}
+        </div>
+      </div>
     </main>
   );
 }
