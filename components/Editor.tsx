@@ -21,6 +21,11 @@ import { Dispatch, SetStateAction } from "react";
 //   }
 // );
 
+// const Editor = dynamic<EditorProps>(
+//   () => import("react-draft-wysiwyg").then((module) => module.Editor),
+//   { ssr: false }
+// );
+
 export default function CustomEditor({
   editorState,
   readOnly = false,

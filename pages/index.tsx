@@ -214,7 +214,7 @@ export default function Home() {
             >
               <Image
                 className="w-full"
-                src={product.image_url ?? ""}
+                src={product.image_url ?? "/no-image.jpg"}
                 alt={`${product.name}`}
                 placeholder="blur"
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
