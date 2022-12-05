@@ -221,10 +221,9 @@ export default function Home(props: { categories: categories[] }) {
                 className="w-full"
                 src={product.image_url ?? "/no-image.jpg"}
                 alt={`${product.name}`}
-                placeholder="blur"
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
                 width={100}
                 height={100}
+                priority
                 sizes="100vw"
               />
               <div className="flex justify-between align-middle">
