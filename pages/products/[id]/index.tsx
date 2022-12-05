@@ -1,26 +1,46 @@
 import { products, Cart, OrderItem } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GetServerSidePropsContext } from "next";
+import { loadProductsIdList } from "lib/productsIdList";
+import { GetServerSidePropsContext, GetStaticPropsContext } from "next";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Carousel from "nuka-carousel";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//   const product = await fetch(
+//     // `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
+//     `https://belisy-commerce.vercel.app/api/get-product?id=${context.params?.id}`
+//   )
+//     .then((res) => res.json())
+//     .then(({ data }) => data);
+
+//   return {
+//     props: {
+//       product,
+//     },
+//   };
+// }
+
+export async function getStaticPaths() {
+  const paths = await loadProductsIdList();
+  console.log("패스", paths);
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({ params }: GetStaticPropsContext) {
   const product = await fetch(
     // `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
-    `https://belisy-commerce.vercel.app/api/get-product?id=${context.params?.id}`
+    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${params?.id}`
   )
     .then((res) => res.json())
     .then(({ data }) => data);
-  const id = context.params?.id;
-  return {
-    props: {
-      // id,
-      product,
-    },
-  };
+
+  return { props: { product } };
 }
 
 export default function Product(props: { product: products }) {
@@ -34,6 +54,11 @@ export default function Product(props: { product: products }) {
   const { id: productId } = router.query;
 
   const [quantity, setQuantity] = useState(0);
+
+  // useEffect(() => {
+  //   const pathsList = fetch("/api/get-productsId");
+  //   console.log("sdf", pathsList);
+  // }, []);
 
   const { data: wishlist } = useQuery(["/api/get-wishlist"], () =>
     fetch("/api/get-wishlist")
@@ -232,8 +257,7 @@ export default function Product(props: { product: products }) {
                 alt={product?.name}
                 width={500}
                 height={400}
-                placeholder="blur"
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
+                priority
               />
             </div>
           ))}

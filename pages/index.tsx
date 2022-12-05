@@ -156,6 +156,7 @@ export default function Home() {
               width={20}
               height={20}
               className="ml-1"
+              priority
             />
           </div>
 

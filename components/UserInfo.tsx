@@ -41,6 +41,7 @@ export default function UserInfo() {
           alt="home"
           width={25}
           height={25}
+          priority
           onClick={() => router.push("/")}
         />
         <Image
@@ -49,6 +50,7 @@ export default function UserInfo() {
           alt="cart"
           width={25}
           height={25}
+          priority
           onClick={onClickCart}
         />
         <Image
@@ -57,6 +59,7 @@ export default function UserInfo() {
           alt="wish"
           width={25}
           height={25}
+          priority
           onClick={onClickWish}
         />
         <Image
@@ -65,6 +68,7 @@ export default function UserInfo() {
           alt="order"
           width={25}
           height={25}
+          priority
           onClick={onClickOrder}
         />
       </div>
