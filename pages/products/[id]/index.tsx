@@ -223,7 +223,7 @@ export default function Product(props: { product: products }) {
               src={url ?? ""}
               width={400}
               height={350}
-              // sizes="(max-width: 768px) 64vw"
+              sizes="80vw"
               alt="image"
               priority
             />
@@ -243,6 +243,7 @@ export default function Product(props: { product: products }) {
                 alt={product?.name}
                 width={500}
                 height={400}
+                sizes="100vw"
                 priority
               />
             </div>
