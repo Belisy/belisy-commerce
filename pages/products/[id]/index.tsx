@@ -1,38 +1,20 @@
 import { products, Cart, OrderItem } from "@prisma/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { loadProductsIdList } from "lib/productsIdList";
-import { GetServerSidePropsContext, GetStaticPropsContext } from "next";
+import { GetStaticPropsContext } from "next";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Carousel from "nuka-carousel";
-import { useCallback, useEffect, useState } from "react";
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const product = await fetch(
-//     // `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
-//     `https://belisy-commerce.vercel.app/api/get-product?id=${context.params?.id}`
-//   )
-//     .then((res) => res.json())
-//     .then(({ data }) => data);
-
-//   return {
-//     props: {
-//       product,
-//     },
-//   };
-// }
+import { useCallback, useState } from "react";
 
 export async function getStaticPaths() {
-  const idList = await loadProductsIdList();
-
+  const productsIdList = await loadProductsIdList();
   const paths = [];
-  if (idList) {
-    for (let productId of idList) {
+  if (productsIdList) {
+    for (let productId of productsIdList) {
       paths.push({ params: { id: productId } });
     }
-
-    console.log("패쓰!!!", paths);
   }
 
   return {
@@ -241,6 +223,7 @@ export default function Product(props: { product: products }) {
               src={url ?? ""}
               width={400}
               height={350}
+              // sizes="(max-width: 768px) 64vw"
               alt="image"
               priority
             />
