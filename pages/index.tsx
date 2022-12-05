@@ -238,16 +238,16 @@ export default function Home(props: { categories: categories[] }) {
           ))}
       </div>
 
-      {totalCount && totalCount > skip + take ? (
-        <button
-          className="btn-hover-pink w-full mx-auto mt-10 p-1 border-2 "
-          onClick={onClickMore}
-        >
-          더보기
-        </button>
-      ) : (
-        ""
-      )}
+      <button
+        className={
+          totalCount &&
+          totalCount > skip + take &&
+          `btn-hover-pink w-full mx-auto mt-10 p-1 border-2`
+        }
+        onClick={onClickMore}
+      >
+        더보기
+      </button>
     </main>
   );
 }
