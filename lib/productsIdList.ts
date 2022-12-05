@@ -1,17 +1,13 @@
 export async function loadProductsIdList() {
-  const pathsList = await fetch(
-    // `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
-    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-productsId`
-  )
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/get-productsId`)
     .then((res) => res.json())
     .then(({ data }) => data);
-  console.log("보기!", pathsList);
 
-  const paths = pathsList.map((product: { id: string }) => ({
-    params: {
-      id: product.toString(),
-    },
-  }));
-  console.log("알언", paths);
+  let paths: any = [];
+
+  for (let product of res) {
+    paths.push({ params: { id: String(product.id) } });
+  }
+
   return paths;
 }

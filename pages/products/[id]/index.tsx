@@ -23,19 +23,37 @@ import { useCallback, useEffect, useState } from "react";
 //   };
 // }
 
+// export async function getStaticPaths() {
+//   const response = await loadProductsIdList();
+//   const jsonRes = JSON.parse(response);
+//   const aaa = jsonRes.json().then(({ data }) => data);
+
+//   // .then((res) => res.json()).then(({ data }) => data);
+
+//   const idList = [];
+//   for (let product of res) {
+//     idList.push({ params: { id: String(product.id) } });
+//   }
+
+//   return {
+//     paths: idList,
+//     fallback: false,
+//   };
+// }
+
 export async function getStaticPaths() {
   const paths = await loadProductsIdList();
-  console.log("패스", paths);
-  return {
-    paths,
+
+  const value = {
+    paths: paths,
     fallback: false,
   };
+  return value;
 }
 
 export async function getStaticProps({ params }: GetStaticPropsContext) {
   const product = await fetch(
-    // `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
-    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${params?.id}`
+    `${process.env.NEXTAUTH_URL}/api/get-product?id=${params?.id}`
   )
     .then((res) => res.json())
     .then(({ data }) => data);
@@ -54,11 +72,6 @@ export default function Product(props: { product: products }) {
   const { id: productId } = router.query;
 
   const [quantity, setQuantity] = useState(0);
-
-  // useEffect(() => {
-  //   const pathsList = fetch("/api/get-productsId");
-  //   console.log("sdf", pathsList);
-  // }, []);
 
   const { data: wishlist } = useQuery(["/api/get-wishlist"], () =>
     fetch("/api/get-wishlist")

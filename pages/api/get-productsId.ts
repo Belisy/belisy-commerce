@@ -5,8 +5,7 @@ const prisma = new PrismaClient();
 
 async function getProductsId() {
   try {
-    const products = await prisma.products.findMany({});
-    const response = products.map((el) => el.id);
+    const response = await prisma.products.findMany({});
     return response;
   } catch (err) {
     console.error(err);
