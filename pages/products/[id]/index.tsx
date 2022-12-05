@@ -42,7 +42,21 @@ import { useCallback, useEffect, useState } from "react";
 // }
 
 export async function getStaticPaths() {
-  const paths = await loadProductsIdList();
+  const res = await loadProductsIdList();
+
+  // const paths = res.(({ data }) => data);
+
+  console.log("패쓰!!!", res);
+
+  const bbb = res.data;
+  console.log("s너라ㅣ", bbb);
+  const ccc = bbb.map((item: { id: any }) => item.id);
+  console.log("씨", typeof ccc[0]);
+
+  const paths = [];
+  for (let product of ccc) {
+    paths.push({ params: { id: String(product.id) } });
+  }
 
   const value = {
     paths: paths,

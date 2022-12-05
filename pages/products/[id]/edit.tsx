@@ -110,7 +110,7 @@ export default function Product(props: { product: products }) {
       // 서버
       // updateImg(newImg);
     },
-    [imageArr, updateImg, newImg]
+    [imageArr]
   );
 
   const onChangeName = useCallback((e: any) => {
