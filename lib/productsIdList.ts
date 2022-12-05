@@ -1,22 +1,27 @@
-import axios from "axios";
-
 export async function loadProductsIdList() {
-  const { data } = await axios.get(
-    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-productsId`
-  );
-  // .then((res) => res.json())
+  // const data = await fetch(
+  //   `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-productsId`
+  // ).then((res) => res.json());
   // .then(({ data }) => data);
 
-  console.log("5테스트", data);
+  // console.log("5테스트", data);
+  //const res = data.data;
 
-  // const aa = data.map((product: { id: any }) => product.id);
-  // console.log("에이", aa);
+  const data = await fetch(
+    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-productsId`
+  ).then((res) => res.text()); // convert to plain text
+  // .then((text) => console.log("제발요", text));
 
-  let paths: any = [];
+  console.log("옹", JSON.parse(data));
 
-  // for (let product of res) {
-  //   paths.push({ params: { id: product } });
-  // }
+  const products = JSON.parse(data).data;
+  console.log("asjdkljslf", products);
+  const idArr = products.map((product: { id: any }) => String(product.id));
+  console.log("리스트", idArr);
 
-  return data;
+  idArr.map((id: any) => ({ params: id }));
+
+  console.log("오잉", idArr);
+
+  return idArr;
 }

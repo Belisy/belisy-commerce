@@ -8,72 +8,48 @@ import { useRouter } from "next/router";
 import Carousel from "nuka-carousel";
 import { useCallback, useEffect, useState } from "react";
 
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const product = await fetch(
-//     // `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
-//     `https://belisy-commerce.vercel.app/api/get-product?id=${context.params?.id}`
-//   )
-//     .then((res) => res.json())
-//     .then(({ data }) => data);
-
-//   return {
-//     props: {
-//       product,
-//     },
-//   };
-// }
-
-// export async function getStaticPaths() {
-//   const response = await loadProductsIdList();
-//   const jsonRes = JSON.parse(response);
-//   const aaa = jsonRes.json().then(({ data }) => data);
-
-//   // .then((res) => res.json()).then(({ data }) => data);
-
-//   const idList = [];
-//   for (let product of res) {
-//     idList.push({ params: { id: String(product.id) } });
-//   }
-
-//   return {
-//     paths: idList,
-//     fallback: false,
-//   };
-// }
-
-export async function getStaticPaths() {
-  const res = await loadProductsIdList();
-
-  // const paths = res.(({ data }) => data);
-
-  console.log("패쓰!!!", res);
-
-  const bbb = res.data;
-  console.log("s너라ㅣ", bbb);
-  const ccc = bbb.map((item: { id: any }) => item.id);
-  console.log("씨", typeof ccc[0]);
-
-  const paths = [];
-  for (let product of ccc) {
-    paths.push({ params: { id: String(product.id) } });
-  }
-
-  const value = {
-    paths: paths,
-    fallback: false,
-  };
-  return value;
-}
-
-export async function getStaticProps({ params }: GetStaticPropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const product = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/get-product?id=${params?.id}`
+    // `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/get-product?id=${context.params?.id}`
+    `https://belisy-commerce.vercel.app/api/get-product?id=${context.params?.id}`
   )
     .then((res) => res.json())
     .then(({ data }) => data);
 
-  return { props: { product } };
+  return {
+    props: {
+      product,
+    },
+  };
 }
+
+// export async function getStaticPaths() {
+//   const idList = await loadProductsIdList();
+
+//   const paths = [];
+//   if (idList) {
+//     for (let productId of idList) {
+//       paths.push({ params: { id: productId } });
+//     }
+
+//     console.log("패쓰!!!", paths);
+//   }
+
+//   return {
+//     paths: paths,
+//     fallback: false,
+//   };
+// }
+
+// export async function getStaticProps({ params }: GetStaticPropsContext) {
+//   const product = await fetch(
+//     `${process.env.NEXTAUTH_URL}/api/get-product?id=${params?.id}`
+//   )
+//     .then((res) => res.json())
+//     .then(({ data }) => data);
+
+//   return { props: { product } };
+// }
 
 export default function Product(props: { product: products }) {
   const [index, setIndex] = useState(0);
