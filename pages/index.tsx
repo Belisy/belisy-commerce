@@ -4,11 +4,21 @@ import { categories, products } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import useDebounce from "hooks/useDebounce";
-import { BlockList } from "net";
+import { GetStaticPropsContext } from "next";
+
+export async function getStaticProps() {
+  const categories = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/get-categories`
+  )
+    .then((res) => res.json())
+    .then(({ data }) => data);
+
+  return { props: { categories } };
+}
 
 // TODO: 코드 리팩토링 및 컴포넌트화 필요
 
-export default function Home() {
+export default function Home(props: { categories: categories[] }) {
   const router = useRouter();
   const filterRef = useRef<HTMLUListElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -57,15 +67,7 @@ export default function Home() {
   }, [selectedCategory, debouncedKeyword]);
 
   // 카테고리api불러오기
-  const { data: categories } = useQuery<
-    { data: categories[] },
-    unknown,
-    categories[]
-  >(
-    ["get-categories"],
-    () => fetch("/api/get-categories").then((res) => res.json()),
-    { select: ({ data }) => data }
-  );
+  const { categories } = props;
 
   // 검색
   const onChangeSearch = useCallback(
@@ -95,10 +97,12 @@ export default function Home() {
     }
   }, []);
   // 카테고리
+  const categoryList = categories.map((el) => el.name);
+
   const onClickCategory = useCallback((e: any) => {
     setSelectedCategory(Number(e.target.value));
-    // e.target.classList.add("selected-pink");
   }, []);
+
   // 더보기-상품 더 불러오기
   const onClickMore = useCallback(() => {
     const next = skip + take;
@@ -188,17 +192,17 @@ export default function Home() {
             >
               전체
             </li>
-            {categories &&
-              categories.map((el, i) => (
+            {categoryList &&
+              categoryList.map((el, i) => (
                 <li
                   key={`${i}-${el}`}
-                  value={el.id}
+                  value={i + 1}
                   className={`${categoryStyle} ${
-                    selectedCategory === el.id ? `selected-pink` : ``
+                    selectedCategory === i + 1 ? `selected-pink` : ``
                   }`}
                   onClick={onClickCategory}
                 >
-                  {el.name}
+                  {el}
                 </li>
               ))}
           </ul>
