@@ -240,9 +240,9 @@ export default function Home(props: { categories: categories[] }) {
 
       <button
         className={
-          totalCount &&
-          totalCount > skip + take &&
-          `btn-hover-pink w-full mx-auto mt-10 p-1 border-2`
+          totalCount && totalCount > skip + take
+            ? `btn-hover-pink w-full mx-auto mt-10 p-1 border-2`
+            : "hidden"
         }
         onClick={onClickMore}
       >
