@@ -223,8 +223,9 @@ export default function Home(props: { categories: categories[] }) {
                 alt={`${product.name}`}
                 placeholder="blur"
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
-                width={130}
+                width={100}
                 height={100}
+                sizes="100vw"
               />
               <div className="flex justify-between align-middle">
                 <div className="text-gray-500 font-semibold sm:text-md lg:text-lg">
