@@ -2,7 +2,6 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export default function GoogleLogin() {
-  // TODO: 코드 리팩토링 하기
   const router = useRouter();
   const { data: session } = useSession();
   if (session) {
@@ -12,17 +11,14 @@ export default function GoogleLogin() {
           {session.user?.email} 으로 로그인이 되어있습니다.
           <br />
           <button
-            className="font-semibold text-lg"
-            onClick={() => router.push("/")}
+            className="font-semibold text-gray-400"
+            onClick={() => signOut()}
           >
-            홈으로
+            Sign out
           </button>
         </div>
-        <button
-          className="font-semibold text-gray-400"
-          onClick={() => signOut()}
-        >
-          Sign out
+        <button className="font-semibold" onClick={() => router.push("/")}>
+          홈으로
         </button>
       </div>
     );
