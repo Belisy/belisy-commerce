@@ -226,7 +226,7 @@ export default function Home(props: { categories: categories[] }) {
                 priority
                 //placeholder="blur"
                 //blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
-                sizes="100vw"
+                sizes="100px"
               />
               <div className="flex justify-between align-middle">
                 <div className="text-gray-500 font-semibold sm:text-md lg:text-lg">
