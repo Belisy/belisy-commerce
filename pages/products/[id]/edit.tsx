@@ -1,5 +1,5 @@
-import { products, Cart, OrderItem } from "@prisma/client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { products } from "@prisma/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { GetServerSidePropsContext } from "next";
 import { useSession } from "next-auth/react";
 import Image from "next/image";

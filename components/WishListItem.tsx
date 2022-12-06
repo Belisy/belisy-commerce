@@ -45,13 +45,13 @@ const WishListItem = (props: products) => {
     <>
       <div className="flex relative w-full lg:w-5/6 mx-auto">
         <Image
-          className="hover:cursor-pointer  w-20 sm:w-24 2sm:w-28 md:w-32 lg:w-40"
+          className="hover:cursor-pointer w-20 sm:w-24 2sm:w-28 md:w-32 lg:w-40"
           src={props.image_url ?? ""}
           alt={props.name}
           width={200}
           height={200}
-          placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
+          sizes="20rem"
+          priority
           onClick={() => {
             router.push(`/products/${props.id}`);
           }}
@@ -68,6 +68,8 @@ const WishListItem = (props: products) => {
             alt="delete"
             width={25}
             height={25}
+            sizes="25px"
+            priority
             onClick={onClickDelete}
           />
 

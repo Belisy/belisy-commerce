@@ -39,8 +39,6 @@ async function getProducts(
       ...orderByCondition,
     });
 
-    console.log("getProducts", response);
-
     return response;
   } catch (err) {
     console.error(err);
