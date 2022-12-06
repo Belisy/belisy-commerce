@@ -23,8 +23,8 @@ const OrderPageItem = (props: OrderItemDetail) => {
           alt={props.name}
           width={200}
           height={200}
-          placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8G7SqHgAGhwJqyab6lgAAAABJRU5ErkJggg=="
+          sizes="20rem"
+          priority
           onClick={() => {
             router.push(`/products/${props.productId}`);
           }}

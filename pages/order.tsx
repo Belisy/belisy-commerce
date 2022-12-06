@@ -4,6 +4,22 @@ import { format } from "date-fns";
 import OrderPageItem from "components/OrderPageItem";
 import Image from "next/image";
 import { useCallback } from "react";
+import { GetServerSidePropsContext } from "next";
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const cookie = context.req ? context.req.headers.cookie : "";
+  const isUSer = cookie?.includes("session-token");
+
+  if (!isUSer) {
+    return {
+      redirect: { destination: `${process.env.NEXTAUTH_URL}/auth/login` },
+    };
+  }
+
+  return {
+    props: { login: true },
+  };
+}
 
 const ORDER_STATUS = [
   "주문취소",
@@ -107,9 +123,11 @@ const DetailItem = (props: OrderDetail) => {
         </div>
       </div>
 
-      {props.orderItems.map((orderItem, i) => (
-        <OrderPageItem key={i} {...orderItem} />
-      ))}
+      <div>
+        {props.orderItems.map((orderItem, i) => (
+          <OrderPageItem key={i} {...orderItem} />
+        ))}
+      </div>
 
       <div className="text-base sm:text-lg lg:text-xl">
         <div>받는 사람 :{props.receiver ?? " 입력 필요"}</div>

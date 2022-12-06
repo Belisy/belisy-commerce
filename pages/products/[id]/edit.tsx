@@ -16,7 +16,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.params?.id;
   return {
     props: {
-      // id,
       product,
     },
   };

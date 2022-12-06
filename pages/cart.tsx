@@ -4,6 +4,30 @@ import Item from "components/CartPageItem";
 import { CartItem } from "components/Type";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
+import { GetServerSidePropsContext } from "next";
+
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//   const product = await fetch(`${process.env.NEXTAUTH_URL}/api/get-cart`)
+//     .then((res) => res.json())
+//     .then(({ data }) => data);
+
+//   return { props: { product } };
+// }
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const cookie = context.req ? context.req.headers.cookie : "";
+  const isUSer = cookie?.includes("session-token");
+
+  if (!isUSer) {
+    return {
+      redirect: { destination: `${process.env.NEXTAUTH_URL}/auth/login` },
+    };
+  }
+
+  return {
+    props: { login: true },
+  };
+}
 
 export default function CartPage() {
   const router = useRouter();
@@ -69,7 +93,7 @@ export default function CartPage() {
       addOrder(itemArr);
     }
 
-    alert(`장바구니에 담긴 상품 ${JSON.stringify(data)} 주문`);
+    alert(`장바구니에 담긴 ${data?.length}가지 종류 상품 주문`);
   };
 
   return (
