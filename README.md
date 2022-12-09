@@ -17,8 +17,7 @@
 📍 React Query
 
 <span style="color:yellowgreen">**Style**</span>  
-📍 Tailwind CSS  
-📍 Emotion
+📍 Tailwind CSS
 
 <span style="color:yellowgreen">**DB**</span>  
 📍 Prisma  
