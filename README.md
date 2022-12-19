@@ -1,7 +1,6 @@
 <div align='center'>
 
 # **💞Belisy Commerce💞**
-<br/>
 TypeScript와 Next.js를 사용하여 구현한 커머스 서비스입니다.
 <br/>
   
@@ -29,7 +28,7 @@ TypeScript와 Next.js를 사용하여 구현한 커머스 서비스입니다.
 <br/>
 <br/>
 
-## **🌼프로젝트 소개🌼**
+## **🌼프로젝트 상세🌼**
 
 
 <!-- 🌼My Notion
