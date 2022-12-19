@@ -2,8 +2,10 @@
 
 # **💞Belisy Commerce💞**
 <br/>
-
-**🌼사용 기술🌼**
+TypeScript와 Next.js를 사용하여 구현한 커머스 서비스입니다.
+<br/>
+  
+## **🌼사용 기술🌼**
 
 <span style="color:yellowgreen">**Language**</span>  
 📍 TypeScript
@@ -29,12 +31,9 @@
 
 ## **🌼프로젝트 소개🌼**
 
-TypeScript와 Next.js를 사용하여 구현한 커머스 서비스입니다.
 
 <!-- 🌼My Notion
 <a href=""><img src="https://img.shields.io/badge/notion-1DBF73?style=flat&logo=Notion&logoColor=white"/></a> -->
-
-<br/>
 
 <span style="color:pink">**메인 페이지**</span>
 
