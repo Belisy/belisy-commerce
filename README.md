@@ -3,7 +3,7 @@
 # **💞Belisy Commerce💞**
 <br/>
 
-## **🌼사용 기술🌼**
+**🌼사용 기술🌼**
 
 <span style="color:yellowgreen">**Language**</span>  
 📍 TypeScript
